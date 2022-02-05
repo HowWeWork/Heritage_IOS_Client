@@ -14,6 +14,9 @@
 		245A7CFF27AD0E4200A32E4D /* Heritage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 245A7CFD27AD0E4200A32E4D /* Heritage.xcdatamodeld */; };
 		245A7D0127AD0E5400A32E4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 245A7D0027AD0E5400A32E4D /* Assets.xcassets */; };
 		245A7D0427AD0E5400A32E4D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 245A7D0227AD0E5400A32E4D /* LaunchScreen.storyboard */; };
+		245A7D0D27AD0F5600A32E4D /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245A7D0B27AD0F5600A32E4D /* CardCell.swift */; };
+		245A7D0E27AD0F5600A32E4D /* CardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 245A7D0C27AD0F5600A32E4D /* CardCell.xib */; };
+		24D6ACF727AE740000A01028 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D6ACF627AE740000A01028 /* Colors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 		245A7D0027AD0E5400A32E4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		245A7D0327AD0E5400A32E4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		245A7D0527AD0E5400A32E4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		245A7D0B27AD0F5600A32E4D /* CardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
+		245A7D0C27AD0F5600A32E4D /* CardCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardCell.xib; sourceTree = "<group>"; };
+		24D6ACF627AE740000A01028 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +67,9 @@
 				245A7CF427AD0E4200A32E4D /* AppDelegate.swift */,
 				245A7CF627AD0E4200A32E4D /* SceneDelegate.swift */,
 				245A7CF827AD0E4200A32E4D /* ViewController.swift */,
+				24D6ACF627AE740000A01028 /* Colors.swift */,
+				245A7D0B27AD0F5600A32E4D /* CardCell.swift */,
+				245A7D0C27AD0F5600A32E4D /* CardCell.xib */,
 				245A7CFA27AD0E4200A32E4D /* Main.storyboard */,
 				245A7D0027AD0E5400A32E4D /* Assets.xcassets */,
 				245A7D0227AD0E5400A32E4D /* LaunchScreen.storyboard */,
@@ -131,6 +140,7 @@
 				245A7D0427AD0E5400A32E4D /* LaunchScreen.storyboard in Resources */,
 				245A7D0127AD0E5400A32E4D /* Assets.xcassets in Resources */,
 				245A7CFC27AD0E4200A32E4D /* Main.storyboard in Resources */,
+				245A7D0E27AD0F5600A32E4D /* CardCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +151,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				245A7D0D27AD0F5600A32E4D /* CardCell.swift in Sources */,
+				24D6ACF727AE740000A01028 /* Colors.swift in Sources */,
 				245A7CF927AD0E4200A32E4D /* ViewController.swift in Sources */,
 				245A7CF527AD0E4200A32E4D /* AppDelegate.swift in Sources */,
 				245A7CFF27AD0E4200A32E4D /* Heritage.xcdatamodeld in Sources */,

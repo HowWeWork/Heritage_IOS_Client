@@ -8,27 +8,55 @@
 import UIKit
 
 class CardCell: UITableViewCell {
+    @IBOutlet var sectorAdded: UILabel!
     @IBOutlet var titleAdded: UILabel!
     @IBOutlet var commentAdded: UILabel!
     @IBOutlet var likeCount: UILabel!
     @IBOutlet var rankLabel: UILabel!
     @IBOutlet var cardBubble: UIStackView!
+    @IBOutlet var likeImage: UIImageView! {
+        didSet {
+            likeImage.isUserInteractionEnabled = true
+        }
+    }
+    var likeNumber = 0
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         cardBubble.layer.cornerRadius = cardBubble.frame.size.height/5
         cardBubble.layer.borderWidth = 2
         cardBubble.layer.borderColor = UIColor.black.cgColor
+        
+       //Tap Gesture Recognizer 실행하기
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapImageView(_:)))
+        likeImage.addGestureRecognizer(tapGestureRecognizer)
+        
+        //Like count 올리기
+        likeCount.text = String(likeNumber)
+  
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
-    @IBAction func likeButton(_ sender: UIButton) {
-    }
-    func commonInit(title:String, comment:String) {
+    func commonInit(rank:String, sector:String, title:String, comment:String) {
+        rankLabel.text = rank
+        sectorAdded.text = sector
         titleAdded.text = title
         commentAdded.text = comment
+    }
+    
+    @objc func didTapImageView(_ sender: UITapGestureRecognizer) {
+        if likeImage.image == UIImage(named: "filledHeart"){
+            likeImage.image = UIImage(named: "emptyHeart")
+            likeNumber -= 1
+            likeCount.text = String(likeNumber)
+        } else {
+            likeImage.image = UIImage(named: "filledHeart")
+            likeNumber += 1
+            likeCount.text = String(likeNumber)
+        }
     }
 }

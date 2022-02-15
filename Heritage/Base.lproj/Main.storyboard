@@ -16,11 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="pfJ-jM-NeC">
-                                <rect key="frame" x="5" y="421" width="404" height="475"/>
-                                <color key="backgroundColor" red="0.99607843139999996" green="0.96078431369999995" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="separatorColor" red="0.99607843139999996" green="0.96078431369999995" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gy6-Lo-QYJ">
                                 <rect key="frame" x="5" y="88" width="404" height="323"/>
                                 <subviews>
@@ -131,13 +126,9 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.99607843139999996" green="0.96078431369999995" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pfJ-jM-NeC" secondAttribute="trailing" constant="5" id="6eB-SP-Fao"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gy6-Lo-QYJ" secondAttribute="trailing" constant="5" id="EbE-7k-GGq"/>
                             <constraint firstItem="gy6-Lo-QYJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="FR4-Yg-waF"/>
                             <constraint firstItem="gy6-Lo-QYJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="5" id="Ylp-da-4Iz"/>
-                            <constraint firstItem="pfJ-jM-NeC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="5" id="ajc-NP-6Pa"/>
-                            <constraint firstItem="pfJ-jM-NeC" firstAttribute="top" secondItem="gy6-Lo-QYJ" secondAttribute="bottom" constant="10" id="mgw-tr-h1v"/>
-                            <constraint firstAttribute="bottom" secondItem="pfJ-jM-NeC" secondAttribute="bottom" id="yyk-fW-NHX"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Heritage" id="bdp-uN-xLq"/>
@@ -145,7 +136,6 @@
                         <outlet property="commentTextView" destination="OSm-wf-7hm" id="dtr-ev-8Er"/>
                         <outlet property="sectorBtn" destination="Uxg-91-Xwe" id="iTY-u5-6v7"/>
                         <outlet property="shareButton" destination="kFL-3P-D6J" id="yMp-Eb-L8C"/>
-                        <outlet property="tableView" destination="pfJ-jM-NeC" id="BZO-Uh-mAE"/>
                         <outlet property="titleCommentView" destination="gy6-Lo-QYJ" id="RsY-zQ-C9q"/>
                         <outlet property="titleTextView" destination="sLI-Kx-fu9" id="wkP-Zz-s46"/>
                     </connections>

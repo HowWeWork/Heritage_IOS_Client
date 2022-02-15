@@ -71,6 +71,8 @@ class TopRankCollectionViewCell: UICollectionViewCell {
         sectionLabel.text = viewModel.section
         titleLabel.text = viewModel.title
         commentLabel.text = viewModel.comment
+        commentLabel.numberOfLines = 0
+        
     }
     
     private func setupLayout(){
@@ -82,7 +84,7 @@ class TopRankCollectionViewCell: UICollectionViewCell {
         titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 35).isActive = true
 
         commentLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        commentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -60).isActive = true
+        commentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -80).isActive = true
 
     }
     
@@ -90,7 +92,8 @@ class TopRankCollectionViewCell: UICollectionViewCell {
         
         contentView.layer.cornerRadius = 20
         contentView.layer.borderWidth = 3
-        contentView.layer.borderColor = UIColor.black.cgColor
+        contentView.layer.borderColor = UIColor(red: 159/255, green: 206/255, blue: 232/255, alpha: 1.0).cgColor
+        
 
     }
 }

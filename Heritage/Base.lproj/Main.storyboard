@@ -16,14 +16,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="pfJ-jM-NeC">
-                                <rect key="frame" x="5" y="375" width="404" height="487"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="pfJ-jM-NeC">
+                                <rect key="frame" x="5" y="421" width="404" height="475"/>
                                 <color key="backgroundColor" red="0.99607843139999996" green="0.96078431369999995" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <color key="separatorColor" red="0.99607843139999996" green="0.96078431369999995" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </tableView>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gy6-Lo-QYJ">
-                                <rect key="frame" x="5" y="88" width="404" height="279"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gy6-Lo-QYJ">
+                                <rect key="frame" x="5" y="88" width="404" height="323"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="LxN-43-OCH">
                                         <rect key="frame" x="14" y="35" width="59" height="141.5"/>
@@ -52,8 +51,8 @@
                                             <constraint firstItem="7Lr-ot-sRT" firstAttribute="top" secondItem="zic-OB-Kms" secondAttribute="bottom" constant="40" id="wZm-17-IPG"/>
                                         </constraints>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kFL-3P-D6J">
-                                        <rect key="frame" x="306" y="239" width="59" height="35"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kFL-3P-D6J">
+                                        <rect key="frame" x="306" y="283" width="59" height="35"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="공유하기">
                                             <fontDescription key="titleFontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
@@ -62,7 +61,7 @@
                                             <action selector="shareButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fag-JX-IZ3"/>
                                         </connections>
                                     </button>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="top" spacing="28" translatesAutoresizingMaskIntoConstraints="NO" id="CrZ-FW-8qP">
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="28" translatesAutoresizingMaskIntoConstraints="NO" id="CrZ-FW-8qP">
                                         <rect key="frame" x="83" y="35" width="295" height="231.5"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uxg-91-Xwe">
@@ -79,18 +78,22 @@
                                                     <action selector="sectorBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hJQ-h3-7u0"/>
                                                 </connections>
                                             </button>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" text="타이틀 입력하기" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="sLI-Kx-fu9">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="타이틀 입력하기" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="sLI-Kx-fu9">
                                                 <rect key="frame" x="0.0" y="48.5" width="295" height="50"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="BAl-rm-j8c"/>
+                                                </constraints>
                                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" text="한줄 평 입력하기" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="OSm-wf-7hm">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="한줄 평 입력하기" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="OSm-wf-7hm">
                                                 <rect key="frame" x="0.0" y="126.5" width="295" height="105"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="105" id="VNB-RD-xrw"/>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="105" id="zQp-KJ-gxD"/>
                                                 </constraints>
                                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -127,6 +130,15 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.99607843139999996" green="0.96078431369999995" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pfJ-jM-NeC" secondAttribute="trailing" constant="5" id="6eB-SP-Fao"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gy6-Lo-QYJ" secondAttribute="trailing" constant="5" id="EbE-7k-GGq"/>
+                            <constraint firstItem="gy6-Lo-QYJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="FR4-Yg-waF"/>
+                            <constraint firstItem="gy6-Lo-QYJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="5" id="Ylp-da-4Iz"/>
+                            <constraint firstItem="pfJ-jM-NeC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="5" id="ajc-NP-6Pa"/>
+                            <constraint firstItem="pfJ-jM-NeC" firstAttribute="top" secondItem="gy6-Lo-QYJ" secondAttribute="bottom" constant="10" id="mgw-tr-h1v"/>
+                            <constraint firstAttribute="bottom" secondItem="pfJ-jM-NeC" secondAttribute="bottom" id="yyk-fW-NHX"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Heritage" id="bdp-uN-xLq"/>
                     <connections>
@@ -140,7 +152,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1742" y="98"/>
+            <point key="canvasLocation" x="1740.5797101449277" y="97.767857142857139"/>
         </scene>
         <!--Heritage-->
         <scene sceneID="L35-ep-OOY">

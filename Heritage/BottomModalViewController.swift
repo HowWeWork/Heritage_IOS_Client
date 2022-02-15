@@ -27,7 +27,7 @@ class CustomModalViewController: UIViewController {
         return view
     }()
     
-    let defaultHeight: CGFloat = 300
+    let defaultHeight: CGFloat = 700
     let dismissibleHeight: CGFloat = 200
     let maximumContainerHeight: CGFloat = UIScreen.main.bounds.height - 64
     // keep updated with new height
@@ -40,7 +40,7 @@ class CustomModalViewController: UIViewController {
     // define lazy views
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Get Started"
+        label.text = "글 작성하기"
         label.font = .boldSystemFont(ofSize: 20)
         return label
     }()

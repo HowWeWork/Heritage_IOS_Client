@@ -95,6 +95,23 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         return 160
     }
+    //Swipe 기능 추가 (수정&삭제)
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "삭제") { action, indexPath in
+            self.writeVC.sectorLabel.remove(at: indexPath.row)
+            self.writeVC.firstLabel.remove(at: indexPath.row)
+            self.writeVC.comment.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+        
+        let editAction = UITableViewRowAction(style: .normal, title: "수정") { action, indexPath in
+            
+           // self.indexPathNum = indexPath.row //indexPath.row 값 저장
+            self.performSegue(withIdentifier: "goToEdit", sender: self)
+        }
+        editAction.backgroundColor = .systemOrange
+        return [deleteAction, editAction]
+    }
     
     private func configureItems() {
         

@@ -12,6 +12,7 @@ class CardCell: UITableViewCell {
     @IBOutlet var titleAdded: UILabel!
     @IBOutlet var commentAdded: UILabel!
     @IBOutlet var likeCount: UILabel!
+    @IBOutlet var likeLabel: UILabel!
     @IBOutlet var rankLabel: UILabel!
     @IBOutlet var cardBubble: UIStackView!
     @IBOutlet var likeImage: UIImageView! {
@@ -35,6 +36,12 @@ class CardCell: UITableViewCell {
         //Like count 올리기
         likeCount.text = String(likeNumber)
   
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        //테이블뷰 행 간 공백 주기
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5))
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

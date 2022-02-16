@@ -14,7 +14,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     //두 종류의 셀 형태를 같는 테이블 뷰 생성 (첫번째 행은 CollectiontableView, 두번째 이하는 CardCell Nib 사용)
-    private let tableView:UITableView = {
+    let tableView:UITableView = {
         let table = UITableView()
 
         table.register(
@@ -38,6 +38,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             ]
         )
     ]
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,8 +54,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         navigationController?.navigationBar.tintColor = .label //.label은 dark or light mode에 따라 글자 색상이 바뀌게 하는 것
         //테이블뷰 등록
         view.addSubview(tableView)
+        
         tableView.dataSource = self
         tableView.delegate = self
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -58,6 +65,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.frame = view.bounds
     }
     
+    @IBAction func prepareForUnWind(segue: UIStoryboardSegue){
+        
+    }
+    //MARK: - TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return writeVC.firstLabel.count
     }
@@ -72,7 +83,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath) as! CardCell
-        cell.commonInit(rank:"\(writeVC.sectorLabel.index(after: indexPath.item))", sector: writeVC.sectorLabel.reversed()[indexPath.item] , title: writeVC.firstLabel.reversed()[indexPath.item], comment: writeVC.comment.reversed()[indexPath.item])
+        cell.commonInit(rank:"\(writeVC.sectorLabel.index(after: indexPath.item)-1)", sector: writeVC.sectorLabel.reversed()[indexPath.item] , title: writeVC.firstLabel.reversed()[indexPath.item], comment: writeVC.comment.reversed()[indexPath.item])
         cell.textLabel?.numberOfLines = 0
         cell.commentAdded.numberOfLines = 0
         
@@ -97,6 +108,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     //Swipe 기능 추가 (수정&삭제)
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
         let deleteAction = UITableViewRowAction(style: .destructive, title: "삭제") { action, indexPath in
             self.writeVC.sectorLabel.remove(at: indexPath.row)
             self.writeVC.firstLabel.remove(at: indexPath.row)
@@ -105,13 +117,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         let editAction = UITableViewRowAction(style: .normal, title: "수정") { action, indexPath in
-            
            // self.indexPathNum = indexPath.row //indexPath.row 값 저장
-            self.performSegue(withIdentifier: "goToEdit", sender: self)
+   
+                self.performSegue(withIdentifier: "goToEdit", sender: self)
+            
         }
         editAction.backgroundColor = .systemOrange
         return [deleteAction, editAction]
     }
+
     
     private func configureItems() {
         
@@ -121,8 +135,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @objc func btnTapped() {
-        print("글쓰기 버튼 tapped")
-        performSegue(withIdentifier: "goToWrite", sender: self)
+        
+            self.performSegue(withIdentifier: "goToWrite", sender: self)
+    
     }
     
     @objc func presentModalController() {

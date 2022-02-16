@@ -10,12 +10,14 @@ import DropDown
 
 class WriteViewController: UIViewController {
     
+//    let mainVC = MainViewController()
+    
     @IBOutlet var titleCommentView: UIView!
     @IBOutlet var titleTextView: UITextView!
     @IBOutlet var commentTextView: UITextView!
     @IBOutlet var shareButton: UIButton!
     @IBOutlet var sectorBtn: UIButton!
-  
+    
     let menu: DropDown = {
         let menu = DropDown()
         menu.dataSource = [
@@ -70,9 +72,9 @@ class WriteViewController: UIViewController {
         shareButton.layer.borderColor = UIColor.black.cgColor
         shareButton.titleLabel?.textColor = UIColor.black
         shareButton.backgroundColor = UIColor(red: 254/255, green: 245/255, blue: 230/255, alpha: 1.0)
-        
     }
     
+ 
     @objc func didTapInItem() {
         menu.show()
         print("Tapped")
@@ -81,21 +83,28 @@ class WriteViewController: UIViewController {
     @IBAction func sectorBtnPressed(_ sender: UIButton) {
         
     }
+    
     @IBAction func shareButtonPressed(_ sender: UIButton) {
         
         sectorLabel.append(sectorBtn.titleLabel?.text ?? "영화")
         firstLabel.append(titleTextView.text)
         comment.append(commentTextView.text)
-//
-//        tableView.reloadData()
+ 
+        //앞 화면으로 돌아가기
+        self.performSegue(withIdentifier: "unwindToViewController", sender: self)
+       
     }
     
-    @objc func presentModalController() {
-        let vc = CustomModalViewController()
-        vc.modalPresentationStyle = .overCurrentContext
-        // Keep animated value as false
-        // Custom Modal presentation animation will be handled in VC itself
-        self.present(vc, animated: false)
-    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "unwindToViewController"{
+            let mainVC = segue.destination as! MainViewController
+            sectorLabel.append(sectorBtn.titleLabel?.text ?? "영화")
+            firstLabel.append(titleTextView.text)
+            comment.append(commentTextView.text)
+           
+            mainVC.tableView.reloadData()
+            }
+        }
+    
 }
 

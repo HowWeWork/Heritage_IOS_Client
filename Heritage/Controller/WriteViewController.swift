@@ -12,6 +12,9 @@ class WriteViewController: UIViewController {
     
 //    let mainVC = MainViewController()
     
+    let cellColors = Colors()
+    
+    
     @IBOutlet var titleCommentView: UIView!
     @IBOutlet var titleTextView: UITextView!
     @IBOutlet var commentTextView: UITextView!
@@ -19,20 +22,17 @@ class WriteViewController: UIViewController {
     @IBOutlet var sectorBtn: UIButton!
     
     let menu: DropDown = {
+        let menus = DropdownMenu()
         let menu = DropDown()
-        menu.dataSource = [
-            "영화",
-            "음악",
-            "책",
-            "뮤지컬"
-        ]
+        menu.dataSource = menus.menus
         return menu
     }()
     
     var sectorLabel: Array<String> = ["영화","영화","영화","영화","영화","영화","영화","영화","영화","영화",""]
     var firstLabel = ["Begin","Love Actually","LaLa Land","Movie#4", "Movie#5", "Movie#6", "Movie#7", "Movie#8", "Movie#9", "Movie#10",""]
     var comment = ["20년간 이어진 시리즈의 팬들에게 바치는 헌사, 스파이더맨: 노웨이 홈의 리뷰를 시작한다.", "EWWW","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance",""]
-    let cellColors = Colors()
+    var likeNumber = [1,2,3,4,5,6,7,8,9,10,0]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,7 +77,6 @@ class WriteViewController: UIViewController {
  
     @objc func didTapInItem() {
         menu.show()
-        print("Tapped")
     }
     
     @IBAction func sectorBtnPressed(_ sender: UIButton) {

@@ -13,6 +13,7 @@ struct TopRankCollectionViewCellViewModel {
     let comment: String
     let backgroundColor: UIColor
 }
+
 class TopRankCollectionViewCell: UICollectionViewCell {
     static let identifier = "TopRankCollectionViewCell"
     
@@ -42,7 +43,7 @@ class TopRankCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+    //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(sectionLabel)

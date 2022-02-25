@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Colors{
+struct Colors {
     static let alpha = 1.0
     //파스텔 진한 버전
     let colorBlue = UIColor(red: 194/255, green: 225/255, blue: 232/255, alpha: alpha)

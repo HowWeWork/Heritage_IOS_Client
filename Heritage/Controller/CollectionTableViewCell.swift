@@ -30,6 +30,8 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
             forCellWithReuseIdentifier: TopRankCollectionViewCell.identifier
         )
         collectionView.backgroundColor = .systemBackground
+        //가로 스크롤바 숨기기
+        collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
     
@@ -59,7 +61,6 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
     
     //MARK: - CollectionView

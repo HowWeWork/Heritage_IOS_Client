@@ -8,6 +8,10 @@
 import UIKit
 
 class CardCell: UITableViewCell {
+
+    let mainVC = MainViewController()
+    var likeAdded = 0
+    
     @IBOutlet var sectorAdded: UILabel!
     @IBOutlet var titleAdded: UILabel!
     @IBOutlet var commentAdded: UILabel!
@@ -20,7 +24,6 @@ class CardCell: UITableViewCell {
             likeImage.isUserInteractionEnabled = true
         }
     }
-    var likeNumber = 0
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,7 +37,7 @@ class CardCell: UITableViewCell {
         likeImage.addGestureRecognizer(tapGestureRecognizer)
         
         //Like count 올리기
-        likeCount.text = String(likeNumber)
+//        likeCount.text = String(likeNumber)
   
     }
     
@@ -48,22 +51,45 @@ class CardCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func commonInit(rank:String, sector:String, title:String, comment:String) {
+    func commonInit(rank: String, sector: String, title: String, comment: String, likeNumber: String) {
         rankLabel.text = rank
         sectorAdded.text = sector
         titleAdded.text = title
         commentAdded.text = comment
+        likeCount.text = String(likeNumber)
     }
     
     @objc func didTapImageView(_ sender: UITapGestureRecognizer) {
-        if likeImage.image == UIImage(named: "filledHeart"){
-            likeImage.image = UIImage(named: "emptyHeart")
-            likeNumber -= 1
-            likeCount.text = String(likeNumber)
+        //내가 직접 넣은 이미지
+//        if likeImage.image == UIImage(named: "filledHeart"){
+//            likeImage.image = UIImage(named: "emptyHeart")
+//            likeNumber -= 1
+//            likeCount.text = String(likeNumber)
+//        } else {
+//            likeImage.image = UIImage(named: "filledHeart")
+//            likeNumber += 1
+//            likeCount.text = String(likeNumber)
+//        }
+        //시스템 이미지
+        if likeImage.image == UIImage(systemName: "heart.fill"){
+            likeImage.image = UIImage(systemName: "heart")
+            likeImage.tintColor = .systemGray
+     
+            likeAdded -= 1
+
+            
+//            likeNumber -= 1
+//            likeCount.text = String(likeNumber)
         } else {
-            likeImage.image = UIImage(named: "filledHeart")
-            likeNumber += 1
-            likeCount.text = String(likeNumber)
+            likeImage.image = UIImage(systemName: "heart.fill")
+            likeImage.tintColor = .systemRed
+            
+            likeAdded += 1
+        
+       
+//            likeNumber += 1
+//            likeCount.text = String(likeNumber)
         }
+        mainVC.tableView.reloadData()
     }
 }

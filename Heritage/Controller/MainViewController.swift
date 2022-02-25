@@ -11,7 +11,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let writeVC = WriteViewController()
     let cellColors = Colors()
-    
+ 
     
     //두 종류의 셀 형태를 같는 테이블 뷰 생성 (첫번째 행은 CollectiontableView, 두번째 이하는 CardCell Nib 사용)
     let tableView:UITableView = {
@@ -25,10 +25,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             UINib(nibName: "CardCell", bundle: nil),
             forCellReuseIdentifier: "ReusableCell"
         )
-  
+        
         return table
     }()
     
+    //아래 viewModels를 다른 파일로 뺄 수는 없을까??
     private let viewModels: [CollectionTableViewCellViewModel] = [
         CollectionTableViewCellViewModel(
             viewModels: [
@@ -49,6 +50,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         view.backgroundColor = UIColor(red: 254/255, green: 245/255, blue: 230/255, alpha: 1.0)
         //네비게이션바 타이틀 크기 설정
         self.navigationController?.navigationBar.prefersLargeTitles = true
+//        self.navigationItem.largeTitleDisplayMode = UINavigationItem.LargeTitleDisplayMode.automatic
         //네비게이션바 버튼 설정
         configureItems()
         navigationController?.navigationBar.tintColor = .label //.label은 dark or light mode에 따라 글자 색상이 바뀌게 하는 것
@@ -57,6 +59,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+        tableView.separatorStyle = .none
+       
 
     }
     
@@ -83,9 +88,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath) as! CardCell
-        cell.commonInit(rank:"\(writeVC.sectorLabel.index(after: indexPath.item)-1)", sector: writeVC.sectorLabel.reversed()[indexPath.item] , title: writeVC.firstLabel.reversed()[indexPath.item], comment: writeVC.comment.reversed()[indexPath.item])
+        cell.commonInit(rank:"\(writeVC.sectorLabel.index(after: indexPath.item)-1)", sector: writeVC.sectorLabel.reversed()[indexPath.item] , title: writeVC.firstLabel.reversed()[indexPath.item], comment: writeVC.comment.reversed()[indexPath.item], likeNumber: String(writeVC.likeNumber.reversed()[indexPath.item]+cell.likeAdded))
+        
         cell.textLabel?.numberOfLines = 0
         cell.commentAdded.numberOfLines = 0
+        
         
         //색상이 순서대로 나오게 하기
         if indexPath.item%4 == 0{
@@ -106,26 +113,30 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         return 160
     }
+
     //Swipe 기능 추가 (수정&삭제)
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        
-        let deleteAction = UITableViewRowAction(style: .destructive, title: "삭제") { action, indexPath in
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .normal, title: "삭제", handler: {action, view, completionHandler in
             self.writeVC.sectorLabel.remove(at: indexPath.row)
             self.writeVC.firstLabel.remove(at: indexPath.row)
             self.writeVC.comment.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
-        }
+        })
         
-        let editAction = UITableViewRowAction(style: .normal, title: "수정") { action, indexPath in
-           // self.indexPathNum = indexPath.row //indexPath.row 값 저장
-   
-                self.performSegue(withIdentifier: "goToEdit", sender: self)
+        let editAction = UIContextualAction(style: .normal, title: "수정", handler: {action, view, completionHandler in
             
-        }
-        editAction.backgroundColor = .systemOrange
-        return [deleteAction, editAction]
-    }
+            DispatchQueue.main.async() {
+                self.performSegue(withIdentifier: "goToEdit", sender: self)
 
+            }
+        })
+        
+        deleteAction.backgroundColor = .red
+        editAction.backgroundColor = .orange
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
+    }
     
     private func configureItems() {
         
@@ -135,9 +146,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @objc func btnTapped() {
-        
-            self.performSegue(withIdentifier: "goToWrite", sender: self)
-    
+        self.performSegue(withIdentifier: "goToWrite", sender: self)
     }
     
     @objc func presentModalController() {

@@ -8,11 +8,12 @@
 import UIKit
 
 struct Colors{
+    static let alpha = 1.0
     //파스텔 진한 버전
-    let colorBlue = UIColor(red: 194/255, green: 225/255, blue: 232/255, alpha: 1.0)
-    let colorPink = UIColor(red: 235/255, green: 201/255, blue: 201/255, alpha: 1.0)
-    let colorGreen = UIColor(red: 165/255, green: 178/255, blue: 131/255, alpha: 1.0)
-    let colorOrange = UIColor(red: 245/255, green: 211/255, blue: 180/255, alpha: 1.0)
+    let colorBlue = UIColor(red: 194/255, green: 225/255, blue: 232/255, alpha: alpha)
+    let colorPink = UIColor(red: 235/255, green: 201/255, blue: 201/255, alpha: alpha)
+    let colorGreen = UIColor(red: 165/255, green: 178/255, blue: 131/255, alpha: alpha)
+    let colorOrange = UIColor(red: 245/255, green: 211/255, blue: 180/255, alpha: alpha)
 
 }
 

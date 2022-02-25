@@ -24,8 +24,8 @@ class CardCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        cardBubble.layer.cornerRadius = cardBubble.frame.size.height/5
-        cardBubble.layer.borderWidth = 2
+//        cardBubble.layer.cornerRadius = cardBubble.frame.size.height/5
+        cardBubble.layer.borderWidth = 0.5
         cardBubble.layer.borderColor = UIColor.black.cgColor
         
        //Tap Gesture Recognizer 실행하기

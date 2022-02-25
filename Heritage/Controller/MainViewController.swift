@@ -47,7 +47,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 254/255, green: 245/255, blue: 230/255, alpha: 1.0)
+        view.backgroundColor = cellColors.viewBackgroundColor
         //네비게이션바 타이틀 크기 설정
         self.navigationController?.navigationBar.prefersLargeTitles = true
 //        self.navigationItem.largeTitleDisplayMode = UINavigationItem.LargeTitleDisplayMode.automatic
@@ -88,7 +88,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath) as! CardCell
-        cell.commonInit(rank:"\(writeVC.sectorLabel.index(after: indexPath.item)-1)", sector: writeVC.sectorLabel.reversed()[indexPath.item] , title: writeVC.firstLabel.reversed()[indexPath.item], comment: writeVC.comment.reversed()[indexPath.item], likeNumber: String(writeVC.likeNumber.reversed()[indexPath.item]+cell.likeAdded))
+        cell.commonInit(rank:"\(writeVC.sectorLabelExample.index(after: indexPath.item)-1)", sector: writeVC.sectorLabelExample.reversed()[indexPath.item] , title: writeVC.firstLabel.reversed()[indexPath.item], comment: writeVC.comment.reversed()[indexPath.item], likeNumber: String(writeVC.likeNumber.reversed()[indexPath.item]+cell.likeAdded))
         
         cell.textLabel?.numberOfLines = 0
         cell.commentAdded.numberOfLines = 0
@@ -118,7 +118,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .normal, title: "삭제", handler: {action, view, completionHandler in
-            self.writeVC.sectorLabel.remove(at: indexPath.row)
+            self.writeVC.sectorLabelExample.remove(at: indexPath.row)
             self.writeVC.firstLabel.remove(at: indexPath.row)
             self.writeVC.comment.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)

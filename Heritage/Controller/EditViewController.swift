@@ -39,7 +39,7 @@ class EditViewController: UIViewController {
         return textField
     }()
     
-    private let categoryLabel: UILabel = {
+    private let sectorLabel: UILabel = {
         let label = UILabel()
         label.text = "카테고리"
         label.font = UIFont.systemFont(ofSize: 20)
@@ -49,7 +49,7 @@ class EditViewController: UIViewController {
         return label
     }()
     
-    private let categoryButton: UIButton = {
+    private let sectorButton: UIButton = {
         let button = UIButton()
         button.setTitle("선택해주세요 ▼", for: .normal)
         button.setTitleColor(.darkGray, for: .normal)
@@ -118,7 +118,7 @@ class EditViewController: UIViewController {
         return stackView
     }()
     
-    private let categoryStackView: UIStackView = {
+    private let sectorStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.distribution = .fillProportionally
         stackView.alignment = .leading
@@ -156,7 +156,7 @@ class EditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(passwordStackView)
-        view.addSubview(categoryStackView)
+        view.addSubview(sectorStackView)
         view.addSubview(titleStackView)
         view.addSubview(commentStackView)
         stackViewLayout()
@@ -177,21 +177,21 @@ class EditViewController: UIViewController {
         passwordStackView.addArrangedSubview(passwordLabel)
         passwordStackView.addArrangedSubview(passwordTextField)
         
-        passwordStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40).isActive = true
+        passwordStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
         passwordStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
    
-        //categoryStackView
-        categoryStackView.addArrangedSubview(categoryLabel)
-        categoryStackView.addArrangedSubview(categoryButton)
+        //sectorStackView
+        sectorStackView.addArrangedSubview(sectorLabel)
+        sectorStackView.addArrangedSubview(sectorButton)
         
-        categoryStackView.topAnchor.constraint(equalTo: passwordStackView.bottomAnchor, constant: 20).isActive = true
-        categoryStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
+        sectorStackView.topAnchor.constraint(equalTo: passwordStackView.bottomAnchor, constant: 20).isActive = true
+        sectorStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
         
         //titleStackView
         titleStackView.addArrangedSubview(titleLabel)
         titleStackView.addArrangedSubview(titleTextField)
         
-        titleStackView.topAnchor.constraint(equalTo: categoryStackView.bottomAnchor, constant: 20).isActive = true
+        titleStackView.topAnchor.constraint(equalTo: sectorStackView.bottomAnchor, constant: 20).isActive = true
         titleStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
         
         //commentStackView
@@ -213,13 +213,13 @@ class EditViewController: UIViewController {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapInItem))
         gesture.numberOfTapsRequired = 1
         gesture.numberOfTouchesRequired = 1
-        categoryButton.addGestureRecognizer(gesture)
-        menu.anchorView = categoryButton
+        sectorButton.addGestureRecognizer(gesture)
+        menu.anchorView = sectorButton
         menu.backgroundColor = .white
         menu.cornerRadius = 8
         menu.selectionAction = { index, title in
             print("\(title)")
-            self.categoryButton.setTitle(title, for: .normal)
+            self.sectorButton.setTitle(title, for: .normal)
         }
     }
 

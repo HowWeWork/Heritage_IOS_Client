@@ -14,6 +14,9 @@ struct Colors {
     let colorPink = UIColor(red: 235/255, green: 201/255, blue: 201/255, alpha: alpha)
     let colorGreen = UIColor(red: 165/255, green: 178/255, blue: 131/255, alpha: alpha)
     let colorOrange = UIColor(red: 245/255, green: 211/255, blue: 180/255, alpha: alpha)
+    
+    //View background color
+    let viewBackgroundColor = UIColor(red: 254/255, green: 245/255, blue: 230/255, alpha: alpha)
 
 }
 

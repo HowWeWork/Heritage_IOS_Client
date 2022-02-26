@@ -185,9 +185,10 @@ class WriteViewController: UIViewController {
         button.widthAnchor.constraint(equalToConstant: 100).isActive = true
         button.heightAnchor.constraint(equalToConstant: 30).isActive = true
         button.translatesAutoresizingMaskIntoConstraints = false
+        //Action
+        button.addTarget(self, action: #selector(createBoardBtnPressed), for: .touchUpInside)
         return button
     }()
-    
     
     let menu: DropDown = {
         let menus = DropdownMenu()
@@ -197,7 +198,7 @@ class WriteViewController: UIViewController {
     }()
     
     var sectorLabelExample: Array<String> = ["영화","영화","영화","영화","영화","영화","영화","영화","영화","영화",""]
-    var firstLabel = ["Begin","Love Actually","LaLa Land","Movie#4", "Movie#5", "Movie#6", "Movie#7", "Movie#8", "Movie#9", "Movie#10",""]
+    var firstLabel = ["스파이더맨","Love Actually","LaLa Land","Movie#4", "Movie#5", "Movie#6", "Movie#7", "Movie#8", "Movie#9", "Movie#10",""]
     var comment = ["20년간 이어진 시리즈의 팬들에게 바치는 헌사, 스파이더맨: 노웨이 홈의 리뷰를 시작한다.", "EWWW","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance",""]
     var likeNumber = [1,2,3,4,5,6,7,8,9,10,0]
     
@@ -212,7 +213,6 @@ class WriteViewController: UIViewController {
         self.view.backgroundColor = cellColors.viewBackgroundColor
         
         //Layout
-        
         view.addSubview(userNameStackView)
         view.addSubview(passwordStackView)
         view.addSubview(sectorStackView)
@@ -229,41 +229,35 @@ class WriteViewController: UIViewController {
         sectorBtn.addGestureRecognizer(gesture)
         menu.anchorView = sectorBtn
         menu.selectionAction = { index, title in
-            self.sectorBtn.titleLabel?.text = title
+            self.sectorBtn.setTitle(title, for: .normal)
         }
         
-        
-        
-        
     }
-    
  
     @objc func didTapInItem() {
         menu.show()
     }
-
-//    
-//    @IBAction func shareButtonPressed(_ sender: UIButton) {
-//        
-//        sectorLabel.append(sectorBtn.titleLabel?.text ?? "영화")
-//        firstLabel.append(titleTextView.text)
-//        comment.append(commentTextView.text)
-// 
-//        //앞 화면으로 돌아가기
-//        self.performSegue(withIdentifier: "unwindToViewController", sender: self)
-//       
-//    }
-//    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "unwindToViewController"{
-//            let mainVC = segue.destination as! MainViewController
-//            sectorLabel.append(sectorBtn.titleLabel?.text ?? "영화")
-//            firstLabel.append(titleTextView.text)
+  
+    @objc func createBoardBtnPressed () {
+        sectorLabelExample.append(sectorBtn.titleLabel?.text ?? "영화")
+        firstLabel.append(titleTextField.text!)
+        comment.append(commentTextView.text)
+        print(sectorLabelExample)
+        //앞 화면으로 돌아가기
+        self.performSegue(withIdentifier: "unwindToViewController", sender: self)
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "unwindToViewController"{
+            let mainVC = segue.destination as! MainViewController
+//            sectorLabelExample.append(sectorBtn.titleLabel?.text ?? "영화")
+//            firstLabel.append(titleTextField.text!)
 //            comment.append(commentTextView.text)
-//           
-//            mainVC.tableView.reloadData()
-//            }
-//        }
+           
+            mainVC.tableView.reloadData()
+            }
+        }
     
     func setUpLayout() {
         //userNameStackView

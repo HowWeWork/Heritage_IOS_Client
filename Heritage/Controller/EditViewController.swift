@@ -160,7 +160,7 @@ class EditViewController: UIViewController {
         view.addSubview(titleStackView)
         view.addSubview(commentStackView)
         stackViewLayout()
-        navigationItem.largeTitleDisplayMode = .never
+//        navigationItem.largeTitleDisplayMode = .never
         
         menuButtonGesture() 
         
@@ -222,11 +222,4 @@ class EditViewController: UIViewController {
             self.sectorButton.setTitle(title, for: .normal)
         }
     }
-
-
-
-    
-
-    
-
 }

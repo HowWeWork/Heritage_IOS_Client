@@ -61,7 +61,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.delegate = self
         
         tableView.separatorStyle = .none
-       
 
     }
     
@@ -86,25 +85,27 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             cell.configure(with: viewModel)
             return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath) as! CardCell
+            cell.commonInit(rank:"\(writeVC.sectorLabelExample.index(after: indexPath.item)-1)", sector: writeVC.sectorLabelExample.reversed()[indexPath.item], title: writeVC.firstLabel.reversed()[indexPath.item], comment: writeVC.comment.reversed()[indexPath.item], likeNumber: String(writeVC.likeNumber.reversed()[indexPath.item]+cell.likeAdded))
+            
+            cell.textLabel?.numberOfLines = 0
+            cell.commentAdded.numberOfLines = 0
+            
+            
+            //색상이 순서대로 나오게 하기
+            if indexPath.item%4 == 0{
+                cell.cardBubble.backgroundColor = cellColors.colorBlue
+            } else if indexPath.item%4 == 1{
+                cell.cardBubble.backgroundColor = cellColors.colorPink
+            } else if indexPath.item%4 == 2{
+                cell.cardBubble.backgroundColor = cellColors.colorOrange
+            } else if indexPath.item%4 == 3{
+                cell.cardBubble.backgroundColor = cellColors.colorGreen
+            }
+            return cell
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath) as! CardCell
-        cell.commonInit(rank:"\(writeVC.sectorLabelExample.index(after: indexPath.item)-1)", sector: writeVC.sectorLabelExample.reversed()[indexPath.item] , title: writeVC.firstLabel.reversed()[indexPath.item], comment: writeVC.comment.reversed()[indexPath.item], likeNumber: String(writeVC.likeNumber.reversed()[indexPath.item]+cell.likeAdded))
         
-        cell.textLabel?.numberOfLines = 0
-        cell.commentAdded.numberOfLines = 0
-        
-        
-        //색상이 순서대로 나오게 하기
-        if indexPath.item%4 == 0{
-            cell.cardBubble.backgroundColor = cellColors.colorBlue
-        } else if indexPath.item%4 == 1{
-            cell.cardBubble.backgroundColor = cellColors.colorPink
-        } else if indexPath.item%4 == 2{
-            cell.cardBubble.backgroundColor = cellColors.colorOrange
-        } else if indexPath.item%4 == 3{
-            cell.cardBubble.backgroundColor = cellColors.colorGreen
-        }
-        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

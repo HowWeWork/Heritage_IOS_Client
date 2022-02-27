@@ -38,8 +38,12 @@
                         <color key="backgroundColor" red="0.99607843139999996" green="0.9854039027" blue="0.95431057549999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </view>
                     <navigationItem key="navigationItem" title="Heritage" id="HM1-z4-9SO"/>
+                    <connections>
+                        <segue destination="Ezv-y8-9eB" kind="unwind" identifier="unwindToViewController" unwindAction="prepareForUnWindWithSegue:" id="1NH-Ky-V33"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jyi-eb-Zlc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="Ezv-y8-9eB" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2213.04347826087" y="416.51785714285711"/>
         </scene>

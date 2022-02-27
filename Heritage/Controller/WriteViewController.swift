@@ -197,10 +197,10 @@ class WriteViewController: UIViewController {
         return menu
     }()
     
-    var sectorLabelExample: Array<String> = ["영화","영화","영화","영화","영화","영화","영화","영화","영화","영화",""]
-    var firstLabel = ["스파이더맨","Love Actually","LaLa Land","Movie#4", "Movie#5", "Movie#6", "Movie#7", "Movie#8", "Movie#9", "Movie#10",""]
-    var comment = ["20년간 이어진 시리즈의 팬들에게 바치는 헌사, 스파이더맨: 노웨이 홈의 리뷰를 시작한다.", "EWWW","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance",""]
-    var likeNumber = [1,2,3,4,5,6,7,8,9,10,0]
+//    var sectorLabelExample: Array<String> = ["영화","영화","영화","영화","영화","영화","영화","영화","영화","영화",""]
+//    var firstLabel = ["스파이더맨","Love Actually","LaLa Land","Movie#4", "Movie#5", "Movie#6", "Movie#7", "Movie#8", "Movie#9", "Movie#10",""]
+//    var comment = ["20년간 이어진 시리즈의 팬들에게 바치는 헌사, 스파이더맨: 노웨이 홈의 리뷰를 시작한다.", "EWWW","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance",""]
+//    var likeNumber = [1,2,3,4,5,6,7,8,9,10,0]
     
     
     override func viewDidLoad() {
@@ -239,23 +239,20 @@ class WriteViewController: UIViewController {
     }
   
     @objc func createBoardBtnPressed () {
-        sectorLabelExample.append(sectorBtn.titleLabel?.text ?? "영화")
-        firstLabel.append(titleTextField.text!)
-        comment.append(commentTextView.text)
-        print(sectorLabelExample)
         //앞 화면으로 돌아가기
         self.performSegue(withIdentifier: "unwindToViewController", sender: self)
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "unwindToViewController"{
             let mainVC = segue.destination as! MainViewController
-//            sectorLabelExample.append(sectorBtn.titleLabel?.text ?? "영화")
-//            firstLabel.append(titleTextField.text!)
-//            comment.append(commentTextView.text)
+            mainVC.sectorLabelExample.append(sectorBtn.titleLabel?.text ?? "영화")
+            mainVC.firstLabel.append(titleTextField.text!)
+            mainVC.comment.append(commentTextView.text)
            
             mainVC.tableView.reloadData()
+            let indexPath = IndexPath(row: mainVC.sectorLabelExample.count - 1, section: 0)
+            mainVC.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
             }
         }
     

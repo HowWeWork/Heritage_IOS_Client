@@ -73,7 +73,7 @@ class CardCell: UITableViewCell {
         //시스템 이미지
         if likeImage.image == UIImage(systemName: "heart.fill"){
             likeImage.image = UIImage(systemName: "heart")
-            likeImage.tintColor = .systemGray
+            likeImage.tintColor = .darkGray
      
             likeAdded -= 1
 

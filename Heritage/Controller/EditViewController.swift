@@ -9,7 +9,11 @@ import UIKit
 import DropDown
 
 class EditViewController: UIViewController {
-
+    
+    var indexPathSelected = Int() //ViewController tableview의 선택한 cell의 indexPath.row
+    var sectorPassed = " "
+    var titlePassed = " "
+    var commentPassed = " "
     
     private let passwordLabel: UILabel = {
         let label = UILabel()
@@ -18,7 +22,7 @@ class EditViewController: UIViewController {
         label.textColor = .darkGray
         label.widthAnchor.constraint(equalToConstant: 100).isActive = true
         label.heightAnchor.constraint(equalToConstant: 30).isActive = true
-//        label.translatesAutoresizingMaskIntoConstraints = false
+
         return label
     }()
     
@@ -35,7 +39,7 @@ class EditViewController: UIViewController {
         
         textField.widthAnchor.constraint(equalToConstant: 100).isActive = true
         textField.heightAnchor.constraint(equalToConstant: 30).isActive = true
-//        textField.translatesAutoresizingMaskIntoConstraints = false
+
         return textField
     }()
     
@@ -45,20 +49,18 @@ class EditViewController: UIViewController {
         label.font = UIFont.systemFont(ofSize: 20)
         label.textColor = .darkGray
         label.widthAnchor.constraint(equalToConstant: 100).isActive = true
-//        label.translatesAutoresizingMaskIntoConstraints = false
+
         return label
     }()
     
-    private let sectorButton: UIButton = {
+    let sectorButton: UIButton = {
         let button = UIButton()
-        button.setTitle("선택해주세요 ▼", for: .normal)
         button.setTitleColor(.darkGray, for: .normal)
-        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         button.widthAnchor.constraint(equalToConstant: 120).isActive = true
         button.layer.borderColor = UIColor.systemGray.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 8
-//        button.translatesAutoresizingMaskIntoConstraints = false
+       
         return button
     }()
     
@@ -146,6 +148,22 @@ class EditViewController: UIViewController {
         return stackView
     }()
     
+    private let editBtn: UIButton = {
+        let button = UIButton()
+        button.setTitle("수정하기", for: .normal)
+        button.setTitleColor(.darkGray, for: .normal)
+        button.layer.borderColor = UIColor.darkGray.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 8
+        
+        button.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(editBtnPressed), for: .touchUpInside)
+        
+        return button
+    }()
+    
     let menu: DropDown = {
         let menus = DropdownMenu()
         let menu = DropDown()
@@ -155,12 +173,17 @@ class EditViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        sectorButton.setTitle(sectorPassed, for: .normal)
+        titleTextField.text = titlePassed
+        commentTextView.text = commentPassed
+
         view.addSubview(passwordStackView)
         view.addSubview(sectorStackView)
         view.addSubview(titleStackView)
         view.addSubview(commentStackView)
+        view.addSubview(editBtn)
         stackViewLayout()
-//        navigationItem.largeTitleDisplayMode = .never
+        navigationItem.largeTitleDisplayMode = .never
         
         menuButtonGesture() 
         
@@ -200,11 +223,28 @@ class EditViewController: UIViewController {
 
         commentStackView.topAnchor.constraint(equalTo: titleStackView.bottomAnchor, constant: 20).isActive = true
         commentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
+        
+        //editBtn
+        editBtn.topAnchor.constraint(equalTo: commentStackView.bottomAnchor, constant: 20).isActive = true
+        editBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20).isActive = true
     }
     
-    @objc func buttonAction() {
-        print("Tapped")
+    @objc func editBtnPressed() {
+        //앞 화면으로 돌아가기
+        self.performSegue(withIdentifier: "unwindToViewController", sender: self)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "unwindToViewController"{
+            let mainVC = segue.destination as! MainViewController
+            mainVC.sectorLabelExample[indexPathSelected] = sectorButton.titleLabel?.text ?? "에러"
+            mainVC.firstLabel[indexPathSelected] = titleTextField.text ?? "에러"
+            mainVC.comment[indexPathSelected] = commentTextView.text ?? "에러"
+           
+            mainVC.tableView.reloadData()
+            }
+    }
+    
     @objc func didTapInItem() {
         menu.show()
     }

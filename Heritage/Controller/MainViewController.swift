@@ -18,16 +18,16 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     private let viewModels: [CollectionTableViewCellViewModel] = [
         CollectionTableViewCellViewModel(
             viewModels: [
-                TopRankCollectionViewCellViewModel(section:"영화", title: "라라랜드", comment: "I'm Always Gonna Love You.", backgroundColor: .white),
+                TopRankCollectionViewCellViewModel(section:"책", title: "달러구트꿈백화점", comment: "따뜻하고 감동적이고 신비한 마법의 묘약을 삼킨 것 같은 아름다운 동화", backgroundColor: .white),
                 TopRankCollectionViewCellViewModel(section:"음악", title: "Stronger", comment: "What doesn't kill you make you stronger", backgroundColor: .white),
                 TopRankCollectionViewCellViewModel(section:"뮤지컬", title: "그리스", comment: "Tell me about it, stud", backgroundColor: .white)
             ]
         )
     ]
     
-    var sectorLabelExample: Array<String> = [" ","영화","영화","영화","영화","영화","영화","영화","영화","영화","영화"]
-    var firstLabel = [" ","스파이더맨","Love Actually","LaLa Land","Movie#4", "Movie#5", "Movie#6", "Movie#7", "Movie#8", "Movie#9", "Movie#10"]
-    var comment = [" ","20년간 이어진 시리즈의 팬들에게 바치는 헌사, 스파이더맨: 노웨이 홈의 리뷰를 시작한다.", "EWWW","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance"]
+    var sectorLabelExample: Array<String> = [" ","영화","영화","책","뮤지컬","뮤지컬","영화","영화","영화","영화","영화"]
+    var firstLabel = [" ","스파이더맨","천공의 성 라퓨타","용의자 X의 헌신","데스노트", "위키드", "Movie#6", "Movie#7", "Movie#8", "Movie#9", "Movie#10"]
+    var comment = [" ","With great power comes great responsibility", "여전히 싱싱한 플롯과 색채, 메시지","한번 빠져들면 나올 수 없는 소설","역시 인간은 재밌어","꿈을 이룬다는 건 예상보다는 단순하지 않았네요. 꿈을 이룬 기쁨 생각보다는 덜 해도 뭐 환벽한 해피엔딩","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance"]
     var likeNumber = [1,2,3,4,5,6,7,8,9,10]
     
     
@@ -57,6 +57,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         view.backgroundColor = cellColors.viewBackgroundColor
         //네비게이션바 타이틀 크기 설정
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        //네비게이션바 Large타이틀 글씨체 변경
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "NotoSerifKR-Bold", size: 30) ?? UIFont.systemFont(ofSize: 30)]
 
         //네비게이션바 버튼 설정
         configureItems()
@@ -92,6 +94,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 fatalError()
             }
             cell.configure(with: viewModel)
+            
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath) as! CardCell
@@ -111,13 +114,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             //색상이 순서대로 나오게 하기
             if indexPath.item%4 == 0{
-                cell.cardBubble.backgroundColor = cellColors.colorBlue
+                cell.cardBubble.backgroundColor = cellColors.mainPink
             } else if indexPath.item%4 == 1{
-                cell.cardBubble.backgroundColor = cellColors.colorPink
+                cell.cardBubble.backgroundColor = cellColors.mainPink
             } else if indexPath.item%4 == 2{
-                cell.cardBubble.backgroundColor = cellColors.colorOrange
+                cell.cardBubble.backgroundColor = cellColors.mainPink
             } else if indexPath.item%4 == 3{
-                cell.cardBubble.backgroundColor = cellColors.colorGreen
+                cell.cardBubble.backgroundColor = cellColors.mainPink
             }
             return cell
         }

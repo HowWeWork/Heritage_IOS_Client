@@ -15,7 +15,7 @@ class WriteViewController: UIViewController {
     private let userNameLabel: UILabel = {
         let label = UILabel()
         label.text = "ID"
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont(name: "NotoSerifKR-Regular", size: 20)
         label.textColor = .darkGray
         label.widthAnchor.constraint(equalToConstant: 70).isActive = true
         
@@ -24,7 +24,9 @@ class WriteViewController: UIViewController {
     
     private let userNameTextField: UITextField = {
         let textField = UITextField()
+        let cellColors = Colors()
         textField.placeholder = "아이디"
+        textField.backgroundColor = cellColors.mainPink
         textField.layer.borderColor = UIColor.darkGray.cgColor
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 8
@@ -38,7 +40,7 @@ class WriteViewController: UIViewController {
     private let passwordLabel: UILabel = {
         let label = UILabel()
         label.text = "PW"
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont(name: "NotoSerifKR-Regular", size: 20)
         label.textColor = .darkGray
         label.widthAnchor.constraint(equalToConstant: 70).isActive = true
         return label
@@ -46,7 +48,9 @@ class WriteViewController: UIViewController {
     
     private let passwordTextField: UITextField = {
         let textField = UITextField()
+        let cellColors = Colors()
         textField.placeholder = "비밀번호"
+        textField.backgroundColor = cellColors.mainPink
         textField.isSecureTextEntry = true
         textField.layer.borderColor = UIColor.darkGray.cgColor
         textField.layer.borderWidth = 1
@@ -61,7 +65,7 @@ class WriteViewController: UIViewController {
     public let sectorLabel: UILabel = {
         let label = UILabel()
         label.text = "Sector"
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont(name: "NotoSerifKR-Regular", size: 20)
         label.textColor = .darkGray
         label.widthAnchor.constraint(equalToConstant: 70).isActive = true
         
@@ -70,12 +74,16 @@ class WriteViewController: UIViewController {
     
     private let sectorBtn: UIButton = {
         let button = UIButton()
+        let color = Colors()
         button.setTitle("선택해주세요 ▼", for: .normal)
         button.setTitleColor(.darkGray, for: .normal)
-        button.layer.borderColor = UIColor.systemGray.cgColor
+        button.backgroundColor = color.mainPink
+        button.layer.borderColor = UIColor.darkGray.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 8
         button.widthAnchor.constraint(equalToConstant: 170).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+
         
         return button
     }()
@@ -83,7 +91,7 @@ class WriteViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "타이틀"
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont(name: "NotoSerifKR-Regular", size: 20)
         label.textColor = .darkGray
         label.widthAnchor.constraint(equalToConstant: 70).isActive = true
         
@@ -92,8 +100,10 @@ class WriteViewController: UIViewController {
     
     private let titleTextField: UITextField = {
         let textField = UITextField()
+        let color = Colors()
         textField.placeholder = "제목을 입력해주세요"
         textField.layer.borderColor = UIColor.darkGray.cgColor
+        textField.backgroundColor = color.mainPink
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 8
         textField.textAlignment = .center
@@ -106,7 +116,7 @@ class WriteViewController: UIViewController {
     private let commentLabel: UILabel = {
         let label = UILabel()
         label.text = "한줄평"
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont(name: "NotoSerifKR-Regular", size: 20)
         label.textColor = .darkGray
         label.widthAnchor.constraint(equalToConstant: 70).isActive = true
         
@@ -115,8 +125,10 @@ class WriteViewController: UIViewController {
     
     private let commentTextView: UITextView = {
         let textView = UITextView()
+        let color = Colors()
         textView.layer.borderWidth = 1
         textView.layer.borderColor = UIColor.darkGray.cgColor
+        textView.backgroundColor = color.mainPink
         textView.layer.cornerRadius = 8
         textView.font = UIFont.systemFont(ofSize: 17)
         textView.heightAnchor.constraint(equalToConstant: 100).isActive = true
@@ -177,9 +189,12 @@ class WriteViewController: UIViewController {
     
     private let boardCreateBtn: UIButton = {
         let button = UIButton()
+        let color = Colors()
         button.setTitle("글쓰기", for: .normal)
         button.setTitleColor(.darkGray, for: .normal)
-        button.layer.borderColor = UIColor.darkGray.cgColor
+        
+        button.backgroundColor = color.mainGray
+        button.layer.borderColor = UIColor.black.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 8
         button.widthAnchor.constraint(equalToConstant: 100).isActive = true
@@ -210,7 +225,7 @@ class WriteViewController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = false
         
         //ViewController
-        self.view.backgroundColor = cellColors.viewBackgroundColor
+        self.view.backgroundColor = .white
         
         //Layout
         view.addSubview(userNameStackView)

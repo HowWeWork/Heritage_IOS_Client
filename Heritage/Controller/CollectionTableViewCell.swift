@@ -38,7 +38,7 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     //MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        collectionView.backgroundColor = UIColor(red: 254/255, green: 245/255, blue: 230/255, alpha: 1.0)
+//        collectionView.backgroundColor = UIColor(red: 254/255, green: 245/255, blue: 230/255, alpha: 1.0)
         contentView.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -76,6 +76,7 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
             fatalError()
         }
         cell.configure(with: viewModels[indexPath.row])
+        
         return cell
     }
     

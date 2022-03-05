@@ -14,11 +14,12 @@ class EditViewController: UIViewController {
     var sectorPassed = " "
     var titlePassed = " "
     var commentPassed = " "
+
     
     private let passwordLabel: UILabel = {
         let label = UILabel()
         label.text = "PW"
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont(name: "NotoSerifKR-Regular", size: 20)
         label.textColor = .darkGray
         label.widthAnchor.constraint(equalToConstant: 100).isActive = true
         label.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -28,10 +29,11 @@ class EditViewController: UIViewController {
     
     private let passwordTextField: UITextField = {
         let textField = UITextField()
+        let cellColors = Colors()
         textField.placeholder = "비밀번호"
-        textField.backgroundColor = .white
+        textField.backgroundColor = cellColors.mainGray
         textField.layer.borderWidth = 1
-        textField.layer.borderColor = UIColor.darkGray.cgColor
+        textField.layer.borderColor = UIColor.black.cgColor
         textField.layer.cornerRadius = 8
         textField.textAlignment = .center
 

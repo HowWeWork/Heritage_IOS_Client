@@ -6,6 +6,11 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="NotoSerifKR-Regular.otf">
+            <string>NotoSerifKR-Regular</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -23,8 +28,8 @@
                                 <rect key="frame" x="0.0" y="0.0" width="40" height="151"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8BR-8l-YUR">
-                                        <rect key="frame" x="13.5" y="59" width="13" height="33.5"/>
-                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="28"/>
+                                        <rect key="frame" x="12.5" y="55.5" width="15.5" height="40.5"/>
+                                        <fontDescription key="fontDescription" name="NotoSerifKR-Regular" family="Noto Serif KR" pointSize="28"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -39,23 +44,23 @@
                                 <rect key="frame" x="41" y="0.0" width="222" height="151"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Comment" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WDm-ri-zZt">
-                                        <rect key="frame" x="0.0" y="62" width="222" height="85"/>
+                                        <rect key="frame" x="0.0" y="62" width="222" height="82"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="85" id="PSF-HV-lKn"/>
+                                            <constraint firstAttribute="height" constant="82" id="PSF-HV-lKn"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="NotoSerifKR-Regular" family="Noto Serif KR" pointSize="17"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="1000" text="Sector" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EIo-O5-LcC">
-                                        <rect key="frame" x="0.0" y="10" width="52" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <rect key="frame" x="0.0" y="10" width="52" height="24.5"/>
+                                        <fontDescription key="fontDescription" name="NotoSerifKR-Regular" family="Noto Serif KR" pointSize="17"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BE1-2Y-dsu">
-                                        <rect key="frame" x="0.0" y="30.5" width="222" height="31.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <rect key="frame" x="0.0" y="34.5" width="222" height="30.5"/>
+                                        <fontDescription key="fontDescription" name="NotoSerifKR-Regular" family="Noto Serif KR" pointSize="17"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -63,12 +68,12 @@
                                 <constraints>
                                     <constraint firstItem="BE1-2Y-dsu" firstAttribute="top" secondItem="EIo-O5-LcC" secondAttribute="bottom" id="1aj-o4-pmg"/>
                                     <constraint firstItem="EIo-O5-LcC" firstAttribute="top" secondItem="86q-Cs-FfP" secondAttribute="top" constant="10" id="6iu-F3-pKf"/>
-                                    <constraint firstItem="WDm-ri-zZt" firstAttribute="top" secondItem="BE1-2Y-dsu" secondAttribute="bottom" id="7TS-af-tEl"/>
+                                    <constraint firstItem="WDm-ri-zZt" firstAttribute="top" secondItem="BE1-2Y-dsu" secondAttribute="bottom" constant="-3" id="7TS-af-tEl"/>
                                     <constraint firstAttribute="trailing" secondItem="EIo-O5-LcC" secondAttribute="trailing" constant="170" id="EOc-It-gsm"/>
                                     <constraint firstItem="WDm-ri-zZt" firstAttribute="leading" secondItem="86q-Cs-FfP" secondAttribute="leading" id="LVz-BO-bqH"/>
                                     <constraint firstAttribute="trailing" secondItem="WDm-ri-zZt" secondAttribute="trailing" id="MVy-bL-i2v"/>
                                     <constraint firstItem="EIo-O5-LcC" firstAttribute="leading" secondItem="86q-Cs-FfP" secondAttribute="leading" id="gAg-Ka-GeJ"/>
-                                    <constraint firstAttribute="bottom" secondItem="WDm-ri-zZt" secondAttribute="bottom" constant="4" id="mhe-3a-bTq"/>
+                                    <constraint firstAttribute="bottom" secondItem="WDm-ri-zZt" secondAttribute="bottom" constant="7" id="mhe-3a-bTq"/>
                                     <constraint firstAttribute="trailing" secondItem="BE1-2Y-dsu" secondAttribute="trailing" id="oGh-lh-8ek"/>
                                     <constraint firstItem="BE1-2Y-dsu" firstAttribute="leading" secondItem="86q-Cs-FfP" secondAttribute="leading" id="voi-sP-MGZ"/>
                                 </constraints>
@@ -82,13 +87,13 @@
                                             <constraint firstAttribute="width" constant="25" id="Q3P-9u-9jQ"/>
                                             <constraint firstAttribute="height" constant="20" id="mdK-NF-Qsh"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" name="NotoSerifKR-Regular" family="Noto Serif KR" pointSize="14"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Like" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VBM-Kq-UGQ">
-                                        <rect key="frame" x="32" y="90" width="26.5" height="17"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <rect key="frame" x="30.5" y="90" width="29.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" name="NotoSerifKR-Regular" family="Noto Serif KR" pointSize="14"/>
                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -125,7 +130,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
-            <color key="backgroundColor" red="0.99607843139999996" green="0.96078431369999995" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="cardBubble" destination="4BA-P1-qiq" id="7NG-ia-hbN"/>
                 <outlet property="commentAdded" destination="WDm-ri-zZt" id="v8s-uR-BZC"/>

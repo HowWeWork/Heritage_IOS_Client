@@ -11,6 +11,7 @@ class CardCell: UITableViewCell {
 
     let mainVC = MainViewController()
     var likeAdded = 0
+    var likeNumber = 0
     
     @IBOutlet var sectorAdded: UILabel!
     @IBOutlet var titleAdded: UILabel!
@@ -28,16 +29,16 @@ class CardCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-//        cardBubble.layer.cornerRadius = cardBubble.frame.size.height/5
-        cardBubble.layer.borderWidth = 0.5
+        cardBubble.layer.cornerRadius = cardBubble.frame.size.height/5
+        cardBubble.layer.borderWidth = 0
         cardBubble.layer.borderColor = UIColor.black.cgColor
         
        //Tap Gesture Recognizer 실행하기
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapImageView(_:)))
         likeImage.addGestureRecognizer(tapGestureRecognizer)
         
-        //Like count 올리기
-//        likeCount.text = String(likeNumber)
+//        Like count 올리기
+        likeCount.text = String(likeNumber)
   
     }
     
@@ -76,10 +77,9 @@ class CardCell: UITableViewCell {
             likeImage.tintColor = .darkGray
      
             likeAdded -= 1
-
             
-//            likeNumber -= 1
-//            likeCount.text = String(likeNumber)
+            likeNumber -= 1
+            likeCount.text = String(likeNumber)
         } else {
             likeImage.image = UIImage(systemName: "heart.fill")
             likeImage.tintColor = .systemRed
@@ -87,8 +87,8 @@ class CardCell: UITableViewCell {
             likeAdded += 1
         
        
-//            likeNumber += 1
-//            likeCount.text = String(likeNumber)
+            likeNumber += 1
+            likeCount.text = String(likeNumber)
         }
         mainVC.tableView.reloadData()
     }

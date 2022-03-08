@@ -22,7 +22,7 @@ class WriteViewController: UIViewController {
         return label
     }()
     
-    private let userNameTextField: UITextField = {
+     let userNameTextField: UITextField = {
         let textField = UITextField()
         let cellColors = Colors()
         textField.placeholder = "아이디"
@@ -46,7 +46,7 @@ class WriteViewController: UIViewController {
         return label
     }()
     
-    private let passwordTextField: UITextField = {
+    let passwordTextField: UITextField = {
         let textField = UITextField()
         let cellColors = Colors()
         textField.placeholder = "비밀번호"
@@ -72,7 +72,7 @@ class WriteViewController: UIViewController {
         return label
     }()
     
-    private let sectorBtn: UIButton = {
+    let sectorBtn: UIButton = {
         let button = UIButton()
         let color = Colors()
         button.setTitle("선택해주세요 ▼", for: .normal)
@@ -84,7 +84,6 @@ class WriteViewController: UIViewController {
         button.widthAnchor.constraint(equalToConstant: 170).isActive = true
         button.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
-        
         return button
     }()
     
@@ -98,7 +97,7 @@ class WriteViewController: UIViewController {
         return label
     }()
     
-    private let titleTextField: UITextField = {
+    let titleTextField: UITextField = {
         let textField = UITextField()
         let color = Colors()
         textField.placeholder = "제목을 입력해주세요"
@@ -123,7 +122,7 @@ class WriteViewController: UIViewController {
         return label
     }()
     
-    private let commentTextView: UITextView = {
+    let commentTextView: UITextView = {
         let textView = UITextView()
         let color = Colors()
         textView.layer.borderWidth = 1
@@ -133,6 +132,7 @@ class WriteViewController: UIViewController {
         textView.font = UIFont.systemFont(ofSize: 17)
         textView.heightAnchor.constraint(equalToConstant: 100).isActive = true
         textView.widthAnchor.constraint(equalToConstant: 170).isActive = true
+        
         return textView
     }()
     
@@ -219,6 +219,8 @@ class WriteViewController: UIViewController {
     
     
     override func viewDidLoad() {
+        
+        
         super.viewDidLoad()
         
         //네비게이션바 타이틀 크기 설정
@@ -256,18 +258,26 @@ class WriteViewController: UIViewController {
     @objc func createBoardBtnPressed () {
         //앞 화면으로 돌아가기
         self.performSegue(withIdentifier: "unwindToViewController", sender: self)
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "unwindToViewController"{
             let mainVC = segue.destination as! MainViewController
-            mainVC.sectorLabelExample.append(sectorBtn.titleLabel?.text ?? "영화")
-            mainVC.firstLabel.append(titleTextField.text!)
-            mainVC.comment.append(commentTextView.text)
+//            mainVC.sectorLabelExample.append(sectorBtn.titleLabel?.text ?? "영화")
+//            mainVC.firstLabel.append(titleTextField.text!)
+//            mainVC.comment.append(commentTextView.text)
+            
+            //API에 붙여보기
+//            var myData = [Data]()
+//            myData.append(Data(userName: userNameTextField.text ?? "아이디", pw: passwordTextField.text ?? "0000", sector: sectorBtn.titleLabel?.text ?? "영화", title: titleTextField.text ?? "타이틀", comment: commentTextView.text ?? "코멘트"))
+
+            
+            postRequest(userName: userNameTextField.text ?? "아이디", pw: passwordTextField.text ?? "0000", sector: sectorBtn.titleLabel?.text ?? "영화", title: titleTextField.text ?? "타이틀", comment: commentTextView.text ?? "코멘트")
            
             mainVC.tableView.reloadData()
             let indexPath = IndexPath(row: mainVC.sectorLabelExample.count - 1, section: 0)
-            mainVC.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+//            mainVC.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
             }
         }
     

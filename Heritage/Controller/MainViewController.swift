@@ -9,6 +9,9 @@ import UIKit
 
 class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    var JSONData = [Data]()
+    var testString: String = ""
+    
     let writeVC = WriteViewController()
     let cellColors = Colors()
     
@@ -49,11 +52,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
+
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = cellColors.viewBackgroundColor
         //네비게이션바 타이틀 크기 설정
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -70,12 +74,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.delegate = self
         
         tableView.separatorStyle = .none
-
+        
+        getRequest()
+       
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
+        
     }
     
     @IBAction func prepareForUnWind(segue: UIStoryboardSegue){
@@ -84,10 +91,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //MARK: - TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return firstLabel.count
+               
+        return JSONData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        //Collection view 들어가는 곳
         if indexPath.row < 1 {
             let viewModel = viewModels[indexPath.row]
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionTableViewCell.identifier, for: indexPath) as? CollectionTableViewCell else {
@@ -96,15 +106,26 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.configure(with: viewModel)
             
             return cell
+            
+        //Table view 그대로 남아 있는 곳
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath) as! CardCell
             
             cell.commonInit(
-                rank:"\(sectorLabelExample.index(after: indexPath.row)-1)",
-                sector: sectorLabelExample[indexPath.row],
-                title: firstLabel[indexPath.row],
-                comment: comment[indexPath.row],
-                likeNumber: "0"
+                
+                //rank는 boardNum,
+                rank: String(JSONData[indexPath.row].boardNum),
+                sector: JSONData[indexPath.row].sector,
+                title: JSONData[indexPath.row].title,
+                comment: JSONData[indexPath.row].comment,
+                likeNumber: String(JSONData[indexPath.row].likeCount)
+                
+//                rank:"\(sectorLabelExample.index(after: indexPath.row)-1)",
+//                sector: sectorLabelExample[indexPath.row],
+                
+//                title: firstLabel[indexPath.row],
+//                comment: comment[indexPath.row],
+//                likeNumber: "0"
             )
             
             //String(likeNumber.reversed()[indexPath.item]+cell.likeAdded)
@@ -190,6 +211,51 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    //MARK: - Get request
+    
+    func getRequest() {
+        //Create URL
+        let url = URL(string: "http://192.168.5.31:5000/board")
+        guard let requestUrl = url else { fatalError() }
+
+        //Create URL Request
+        var request = URLRequest(url: requestUrl)
+
+        //Specify HTTP Method to use
+        request.httpMethod = "GET"
+
+        //Set HTTP Request Header : no need
+
+        //Send HTTP Request
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            }
+            // Read HTTP Response Status code
+            if let response = response as? HTTPURLResponse {
+                print("1.Response HTTP Status code: \(response.statusCode)")
+
+            }
+
+            // Convert HTTP Response Data to a simple String
+            guard let data = data else { return }
+
+            do {
+                let posts = try JSONDecoder().decode([Data].self, from: data)
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1){
+                    self.JSONData = posts
+                }
+                
+            } catch {
+                print(error.localizedDescription)
+            }
+            print(self.JSONData)
+        }
+        task.resume()
+    }
+  
 
 }
 

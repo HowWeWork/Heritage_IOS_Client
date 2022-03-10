@@ -10,6 +10,9 @@ import DropDown
 
 class EditViewController: UIViewController {
     
+    let DidDismissPostVC: Notification.Name = Notification.Name("DidDismissPostVC")
+    let mainVC = MainViewController()
+    
     var indexPathSelected = Int() //ViewController tableview의 선택한 cell의 indexPath.row
     var sectorPassed = " "
     var titlePassed = " "
@@ -233,17 +236,31 @@ class EditViewController: UIViewController {
     
     @objc func editBtnPressed() {
         //앞 화면으로 돌아가기
+        NotificationCenter.default.post(name: DidDismissPostVC, object: nil, userInfo: nil)
         self.performSegue(withIdentifier: "unwindToViewController", sender: self)
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "unwindToViewController"{
             let mainVC = segue.destination as! MainViewController
-            mainVC.sectorLabelExample[indexPathSelected] = sectorButton.titleLabel?.text ?? "에러"
-            mainVC.firstLabel[indexPathSelected] = titleTextField.text ?? "에러"
-            mainVC.comment[indexPathSelected] = commentTextView.text ?? "에러"
+            
+            //API 사용 시
+            let sectorLabel = sectorButton.titleLabel?.text ?? "에러"
+            let titleLabel = titleTextField.text ?? "에러"
+            let commentText = commentTextView.text ?? "에러"
+            
+            putRequest(boardNum: mainVC.JSONData[indexPathSelected].boardNum, sector: sectorLabel , title: titleLabel, comment: commentText) {
+                mainVC.tableView.reloadData()
+            }
            
-            mainVC.tableView.reloadData()
+            print(mainVC.JSONData[indexPathSelected].boardNum)
+
+            
+            //내부 저장된 데이터 사용 시
+//            mainVC.sectorLabelExample[indexPathSelected] = sectorButton.titleLabel?.text ?? "에러"
+//            mainVC.firstLabel[indexPathSelected] = titleTextField.text ?? "에러"
+//            mainVC.comment[indexPathSelected] = commentTextView.text ?? "에러"
             }
     }
     

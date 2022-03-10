@@ -12,6 +12,8 @@ class WriteViewController: UIViewController {
     
     let cellColors = Colors()
     
+    let DidDismissPostVC: Notification.Name = Notification.Name("DidDismissPostVC")
+    
     private let userNameLabel: UILabel = {
         let label = UILabel()
         label.text = "ID"
@@ -22,7 +24,7 @@ class WriteViewController: UIViewController {
         return label
     }()
     
-     let userNameTextField: UITextField = {
+    let userNameTextField: UITextField = {
         let textField = UITextField()
         let cellColors = Colors()
         textField.placeholder = "아이디"
@@ -83,7 +85,7 @@ class WriteViewController: UIViewController {
         button.layer.cornerRadius = 8
         button.widthAnchor.constraint(equalToConstant: 170).isActive = true
         button.heightAnchor.constraint(equalToConstant: 30).isActive = true
-
+        
         return button
     }()
     
@@ -212,10 +214,10 @@ class WriteViewController: UIViewController {
         return menu
     }()
     
-//    var sectorLabelExample: Array<String> = ["영화","영화","영화","영화","영화","영화","영화","영화","영화","영화",""]
-//    var firstLabel = ["스파이더맨","Love Actually","LaLa Land","Movie#4", "Movie#5", "Movie#6", "Movie#7", "Movie#8", "Movie#9", "Movie#10",""]
-//    var comment = ["20년간 이어진 시리즈의 팬들에게 바치는 헌사, 스파이더맨: 노웨이 홈의 리뷰를 시작한다.", "EWWW","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance",""]
-//    var likeNumber = [1,2,3,4,5,6,7,8,9,10,0]
+    //    var sectorLabelExample: Array<String> = ["영화","영화","영화","영화","영화","영화","영화","영화","영화","영화",""]
+    //    var firstLabel = ["스파이더맨","Love Actually","LaLa Land","Movie#4", "Movie#5", "Movie#6", "Movie#7", "Movie#8", "Movie#9", "Movie#10",""]
+    //    var comment = ["20년간 이어진 시리즈의 팬들에게 바치는 헌사, 스파이더맨: 노웨이 홈의 리뷰를 시작한다.", "EWWW","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance",""]
+    //    var likeNumber = [1,2,3,4,5,6,7,8,9,10,0]
     
     
     override func viewDidLoad() {
@@ -250,36 +252,38 @@ class WriteViewController: UIViewController {
         }
         
     }
- 
+    
     @objc func didTapInItem() {
         menu.show()
     }
-  
+    
     @objc func createBoardBtnPressed () {
         //앞 화면으로 돌아가기
+        NotificationCenter.default.post(name: DidDismissPostVC, object: nil, userInfo: nil)
         self.performSegue(withIdentifier: "unwindToViewController", sender: self)
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "unwindToViewController"{
             let mainVC = segue.destination as! MainViewController
-//            mainVC.sectorLabelExample.append(sectorBtn.titleLabel?.text ?? "영화")
-//            mainVC.firstLabel.append(titleTextField.text!)
-//            mainVC.comment.append(commentTextView.text)
+            //            mainVC.sectorLabelExample.append(sectorBtn.titleLabel?.text ?? "영화")
+            //            mainVC.firstLabel.append(titleTextField.text!)
+            //            mainVC.comment.append(commentTextView.text)
             
             //API에 붙여보기
-//            var myData = [Data]()
-//            myData.append(Data(userName: userNameTextField.text ?? "아이디", pw: passwordTextField.text ?? "0000", sector: sectorBtn.titleLabel?.text ?? "영화", title: titleTextField.text ?? "타이틀", comment: commentTextView.text ?? "코멘트"))
-
+            //            var myData = [Data]()
+            //            myData.append(Data(userName: userNameTextField.text ?? "아이디", pw: passwordTextField.text ?? "0000", sector: sectorBtn.titleLabel?.text ?? "영화", title: titleTextField.text ?? "타이틀", comment: commentTextView.text ?? "코멘트"))
+            mainVC.tableView.reloadData()
             
             postRequest(userName: userNameTextField.text ?? "아이디", pw: passwordTextField.text ?? "0000", sector: sectorBtn.titleLabel?.text ?? "영화", title: titleTextField.text ?? "타이틀", comment: commentTextView.text ?? "코멘트")
-           
-            mainVC.tableView.reloadData()
+            
+//            OperationQueue.main.addOperation {
+//                mainVC.tableView.reloadData()
+//            }
             let indexPath = IndexPath(row: mainVC.sectorLabelExample.count - 1, section: 0)
-//            mainVC.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-            }
+            //            mainVC.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
         }
+    }
     
     func setUpLayout() {
         //userNameStackView
@@ -317,11 +321,11 @@ class WriteViewController: UIViewController {
         commentStackView.topAnchor.constraint(equalTo: titleStackView.bottomAnchor, constant: 20).isActive = true
         commentStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         
-//        //boardCreateButton
+        //        //boardCreateButton
         boardCreateBtn.topAnchor.constraint(equalTo: commentStackView.bottomAnchor, constant: 20).isActive = true
         boardCreateBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-//        boardCreateBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
-//
+        //        boardCreateBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+        //
     }
     
 }

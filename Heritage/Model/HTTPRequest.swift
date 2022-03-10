@@ -54,21 +54,20 @@ import UIKit
 //    task.resume()
 //}
 
-
 func postRequest(userName: String, pw: String, sector: String, title: String, comment: String) {
-    guard let url = URL(string: "http://192.168.5.31:5000/board") else {
+    guard let url = URL(string: "http://192.168.4.210:5000/board") else {
         return
     }
-  
+    
     // Prepare URL Request Object
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-     
+    
     // HTTP Request Parameters which will be sent in HTTP Request Body
-//    let postString = "userId=300&title=My urgent task&completed=false";
+    //    let postString = "userId=300&title=My urgent task&completed=false";
     // Set HTTP Request Body
-
+    
     let body: [String: AnyHashable] = [
         
         "userName": userName,
@@ -78,13 +77,87 @@ func postRequest(userName: String, pw: String, sector: String, title: String, co
         "comment": comment
         
     ]
-
+    
     request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
-
+    
     // Perform HTTP Request
     let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            
+        
     }
     task.resume()
+}
+
+//PATCH
+func putRequest(boardNum: Int, sector: String, title: String, comment: String, completed: @escaping () -> ()) {
+    guard let url = URL(string: "http://192.168.4.210:5000/board/\(boardNum)") else { return }
     
+    struct UploadData: Codable {
+        var sector: String
+        var title: String
+        var comment: String
+    }
+    
+    let uploadDataModel = UploadData(sector: sector, title: title, comment: comment)
+    
+    guard let jsonData = try? JSONEncoder().encode(uploadDataModel) else {
+        print("Error: Trying to convert model to JSON data")
+        return
+    }
+    
+    var request = URLRequest(url: url)
+    request.httpMethod = "PATCH"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.httpBody = jsonData
+    URLSession.shared.dataTask(with: request) { data, response, error in
+        guard error == nil else {
+            print("Error: error calling PUT")
+            return
+        }
+        guard let data = data else {
+            print("Error: Did not receive data")
+            return
+        }
+        guard let response = response as? HTTPURLResponse, (200 ..< 299) ~= response.statusCode else {
+            print("Error: HTTP request failed")
+            return
+        }
+        do {
+            guard let jsonObject = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+                print("Error: cannot convert data to JSON object")
+                return
+            }
+            guard let prettyJsonData = try? JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted) else {
+                print("Error: Cannot convert JSON object to Pretty JSON data")
+                return
+            }
+            guard let prettyPrintedJson = String(data: prettyJsonData, encoding: .utf8) else {
+                DispatchQueue.main.async {
+                    completed()
+                }
+                print("Error: Could print JSON in String")
+                return
+            }
+            print(prettyPrintedJson)
+        } catch {
+            print("Error: Trying to convert JSON data to string")
+            return
+        }
+        
+    }.resume()
+}
+
+//DELETE
+func deleteRequest(boardNum: Int, completion: @escaping (Error?) -> ()) {
+    guard let url = URL(string: "http://192.168.4.210:5000/board/\(boardNum)") else { return }
+    
+    var urlRequest = URLRequest(url: url)
+    urlRequest.httpMethod = "DELETE"
+    URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+        if let error = error {
+            completion(error)
+            return
+        }
+        guard let data = data else { return }
+        completion(nil)
+    }.resume()
 }

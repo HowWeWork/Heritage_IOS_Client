@@ -53,6 +53,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        tableView.reloadData()
     }
 
     override func viewDidLoad() {
@@ -67,16 +68,22 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         //네비게이션바 버튼 설정
         configureItems()
         navigationController?.navigationBar.tintColor = .label //.label은 dark or light mode에 따라 글자 색상이 바뀌게 하는 것
+        
         //테이블뷰 등록
         view.addSubview(tableView)
-        
+//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+//            self.view.addSubview(self.tableView)
+//        }
         tableView.dataSource = self
         tableView.delegate = self
-        
         tableView.separatorStyle = .none
         
-        getRequest()
-       
+        //GET Request
+        getRequest {
+            self.tableView.reloadData()
+        }
+        NotificationCenter.default.post(name: writeVC.DidDismissPostVC, object: nil, userInfo: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didDismissPostNotification(_:)), name: writeVC.DidDismissPostVC, object: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -114,7 +121,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.commonInit(
                 
                 //rank는 boardNum,
-                rank: String(JSONData[indexPath.row].boardNum),
+                rank: String(indexPath.row),
                 sector: JSONData[indexPath.row].sector,
                 title: JSONData[indexPath.row].title,
                 comment: JSONData[indexPath.row].comment,
@@ -154,17 +161,40 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         return 160
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("IndexPath.row:", indexPath.row)
+        print("BoardNum:",JSONData[indexPath.row].boardNum)
+    }
 
     //Swipe 기능 추가 (수정&삭제)
-    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        //삭제
         let deleteAction = UIContextualAction(style: .normal, title: "삭제", handler: {action, view, completionHandler in
-            self.sectorLabelExample.remove(at: indexPath.row)
-            self.firstLabel.remove(at: indexPath.row)
-            self.comment.remove(at: indexPath.row)
+            
+            //API 사용으로 변경 후
+            deleteRequest(boardNum: self.JSONData[indexPath.row].boardNum) { (err) in
+                if let err = err {
+                    print("Failed to delete:", err)
+                    return
+                }
+                print("Successfully deleted post from server")
+                print(self.JSONData.count)
+            }
+            self.JSONData.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            //위의 셀 삭제되면 랭킹 라벨에 번호 새로 매겨지도록 테이블뷰를 새로 업로드
+            self.tableView.reloadData()
+            
+            //내부 데이터일 때
+//            self.sectorLabelExample.remove(at: indexPath.row)
+//            self.firstLabel.remove(at: indexPath.row)
+//            self.comment.remove(at: indexPath.row)
+//            self.tableView.deleteRows(at: [indexPath], with: .automatic)
         })
         
+        //수정
         let editAction = UIContextualAction(style: .normal, title: "수정", handler: {action, view, completionHandler in
             
             self.indexPathNum = indexPath.row //indexPath.row 값 저장
@@ -200,22 +230,30 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     //MARK: - Prepare for Segue
-    //화면 전환 전 값 저장
+    //수정화면 전환 전 값 저장
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToEdit"{
             let destinationVC = segue.destination as! EditViewController
-            destinationVC.sectorPassed = sectorLabelExample[indexPathNum]
-            destinationVC.titlePassed = firstLabel[indexPathNum]
-            destinationVC.commentPassed = comment[indexPathNum]
+            
+            //API 사용 시
+            destinationVC.sectorPassed = JSONData[indexPathNum].sector
+            destinationVC.titlePassed = JSONData[indexPathNum].title
+            destinationVC.commentPassed = JSONData[indexPathNum].comment
             destinationVC.indexPathSelected = indexPathNum
+            
+            //내부 저장 데이터 사용 시
+//            destinationVC.sectorPassed = sectorLabelExample[indexPathNum]
+//            destinationVC.titlePassed = firstLabel[indexPathNum]
+//            destinationVC.commentPassed = comment[indexPathNum]
+//            destinationVC.indexPathSelected = indexPathNum
         }
     }
     
     //MARK: - Get request
     
-    func getRequest() {
+    func getRequest(completed: @escaping () -> ()) {
         //Create URL
-        let url = URL(string: "http://192.168.5.31:5000/board")
+        let url = URL(string: "http://192.168.4.210:5000/board")
         guard let requestUrl = url else { fatalError() }
 
         //Create URL Request
@@ -224,10 +262,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         //Specify HTTP Method to use
         request.httpMethod = "GET"
 
-        //Set HTTP Request Header : no need
-
         //Send HTTP Request
-
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("Error took place \(error)")
@@ -236,24 +271,32 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             // Read HTTP Response Status code
             if let response = response as? HTTPURLResponse {
                 print("1.Response HTTP Status code: \(response.statusCode)")
-
             }
 
-            // Convert HTTP Response Data to a simple String
+            // Convert HTTP Response Data to Structure
             guard let data = data else { return }
-
             do {
                 let posts = try JSONDecoder().decode([Data].self, from: data)
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1){
-                    self.JSONData = posts
+                DispatchQueue.main.async {
+                    completed()
                 }
-                
+                self.JSONData = posts
+
             } catch {
                 print(error.localizedDescription)
             }
-            print(self.JSONData)
+            print("Available data:",self.JSONData.count)
         }
         task.resume()
+    }
+    
+    @objc func didDismissPostNotification(_ noti: Notification) {
+        getRequest {
+            self.tableView.reloadData()
+        }
+//        OperationQueue.main.addOperation {
+//            self.tableView.reloadData()
+//        }
     }
   
 

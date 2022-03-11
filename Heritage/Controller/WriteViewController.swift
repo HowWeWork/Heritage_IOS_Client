@@ -214,14 +214,8 @@ class WriteViewController: UIViewController {
         return menu
     }()
     
-    //    var sectorLabelExample: Array<String> = ["영화","영화","영화","영화","영화","영화","영화","영화","영화","영화",""]
-    //    var firstLabel = ["스파이더맨","Love Actually","LaLa Land","Movie#4", "Movie#5", "Movie#6", "Movie#7", "Movie#8", "Movie#9", "Movie#10",""]
-    //    var comment = ["20년간 이어진 시리즈의 팬들에게 바치는 헌사, 스파이더맨: 노웨이 홈의 리뷰를 시작한다.", "EWWW","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance",""]
-    //    var likeNumber = [1,2,3,4,5,6,7,8,9,10,0]
-    
     
     override func viewDidLoad() {
-        
         
         super.viewDidLoad()
         
@@ -259,7 +253,9 @@ class WriteViewController: UIViewController {
     
     @objc func createBoardBtnPressed () {
         //앞 화면으로 돌아가기
-        NotificationCenter.default.post(name: DidDismissPostVC, object: nil, userInfo: nil)
+        postRequest(userName: userNameTextField.text ?? "아이디", pw: passwordTextField.text ?? "0000", sector: sectorBtn.titleLabel?.text ?? "영화", title: titleTextField.text ?? "타이틀", comment: commentTextView.text ?? "코멘트")
+        
+        NotificationCenter.default.post(name: self.DidDismissPostVC, object: nil, userInfo: nil)
         self.performSegue(withIdentifier: "unwindToViewController", sender: self)
     }
     
@@ -273,14 +269,26 @@ class WriteViewController: UIViewController {
             //API에 붙여보기
             //            var myData = [Data]()
             //            myData.append(Data(userName: userNameTextField.text ?? "아이디", pw: passwordTextField.text ?? "0000", sector: sectorBtn.titleLabel?.text ?? "영화", title: titleTextField.text ?? "타이틀", comment: commentTextView.text ?? "코멘트"))
-            mainVC.tableView.reloadData()
             
-            postRequest(userName: userNameTextField.text ?? "아이디", pw: passwordTextField.text ?? "0000", sector: sectorBtn.titleLabel?.text ?? "영화", title: titleTextField.text ?? "타이틀", comment: commentTextView.text ?? "코멘트")
+//            postRequest(userName: userNameTextField.text ?? "아이디", pw: passwordTextField.text ?? "0000", sector: sectorBtn.titleLabel?.text ?? "영화", title: titleTextField.text ?? "타이틀", comment: commentTextView.text ?? "코멘트")
             
+//            NotificationCenter.default.post(name: DidDismissPostVC, object: nil, userInfo: nil)
+            
+//            DispatchQueue.main.async {
+//                mainVC.tableView.reloadData()
+//                print("Tableview Reloaded")
+//            }
+            
+//            mainVC.getRequest {
+//                mainVC.tableView.reloadData()
+//            }
+//
 //            OperationQueue.main.addOperation {
 //                mainVC.tableView.reloadData()
 //            }
-            let indexPath = IndexPath(row: mainVC.sectorLabelExample.count - 1, section: 0)
+            
+            //가장 최신 글로 스크롤 다운 되게
+//            let indexPath = IndexPath(row: mainVC.sectorLabelExample.count - 1, section: 0)
             //            mainVC.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
         }
     }
@@ -290,7 +298,7 @@ class WriteViewController: UIViewController {
         userNameStackView.addArrangedSubview(userNameLabel)
         userNameStackView.addArrangedSubview(userNameTextField)
         
-        userNameStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        userNameStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
         userNameStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         
         //passwordStackView

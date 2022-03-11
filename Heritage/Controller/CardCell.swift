@@ -8,10 +8,11 @@
 import UIKit
 
 class CardCell: UITableViewCell {
-
+    
     let mainVC = MainViewController()
-    var likeAdded = 0
+    var indexPathNum = 0
     var likeNumber = 0
+    var likeOrNot: Bool = false
     
     @IBOutlet var sectorAdded: UILabel!
     @IBOutlet var titleAdded: UILabel!
@@ -33,13 +34,13 @@ class CardCell: UITableViewCell {
         cardBubble.layer.borderWidth = 0
         cardBubble.layer.borderColor = UIColor.black.cgColor
         
-       //Tap Gesture Recognizer 실행하기
+        //Tap Gesture Recognizer 실행하기
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapImageView(_:)))
         likeImage.addGestureRecognizer(tapGestureRecognizer)
         
-//        Like count 올리기
+        //        Like count 올리기
         likeCount.text = String(likeNumber)
-  
+        
     }
     
     override func layoutSubviews() {
@@ -47,7 +48,7 @@ class CardCell: UITableViewCell {
         //테이블뷰 행 간 공백 주기
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5))
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
@@ -62,34 +63,58 @@ class CardCell: UITableViewCell {
     
     @objc func didTapImageView(_ sender: UITapGestureRecognizer) {
         //내가 직접 넣은 이미지
-//        if likeImage.image == UIImage(named: "filledHeart"){
-//            likeImage.image = UIImage(named: "emptyHeart")
-//            likeNumber -= 1
-//            likeCount.text = String(likeNumber)
-//        } else {
-//            likeImage.image = UIImage(named: "filledHeart")
-//            likeNumber += 1
-//            likeCount.text = String(likeNumber)
-//        }
+        //        if likeImage.image == UIImage(named: "filledHeart"){
+        //            likeImage.image = UIImage(named: "emptyHeart")
+        //            likeNumber -= 1
+        //            likeCount.text = String(likeNumber)
+        //        } else {
+        //            likeImage.image = UIImage(named: "filledHeart")
+        //            likeNumber += 1
+        //            likeCount.text = String(likeNumber)
+        //        }
+        
+        //indexPath of a cell of the selected button
+        
+        self.indexPath.flatMap { indexPathNum = Int($0[1]) }
+
         //시스템 이미지
         if likeImage.image == UIImage(systemName: "heart.fill"){
             likeImage.image = UIImage(systemName: "heart")
             likeImage.tintColor = .darkGray
-     
-            likeAdded -= 1
             
+            likeOrNot = false
             likeNumber -= 1
-            likeCount.text = String(likeNumber)
+
+            likeCount.text = String(mainVC.savedLikeNum + likeNumber)
+            
+            
         } else {
             likeImage.image = UIImage(systemName: "heart.fill")
             likeImage.tintColor = .systemRed
             
-            likeAdded += 1
-        
-       
+            likeOrNot = true
+            
             likeNumber += 1
-            likeCount.text = String(likeNumber)
+            likeCount.text = String(mainVC.savedLikeNum + likeNumber)
+            
+            
         }
         mainVC.tableView.reloadData()
+    }
+    
+}
+
+extension UIResponder {
+    func next<U: UIResponder>(of type: U.Type = U.self) -> U? {
+        return self.next.flatMap({ $0 as? U ?? $0.next() })
+    }
+}
+extension UITableViewCell {
+    var tableView: UITableView? {
+        return self.next(of: UITableView.self)
+    }
+    
+    var indexPath: IndexPath? {
+        return self.tableView?.indexPath(for: self)
     }
 }

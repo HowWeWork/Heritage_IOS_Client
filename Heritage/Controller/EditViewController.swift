@@ -10,8 +10,10 @@ import DropDown
 
 class EditViewController: UIViewController {
     
+    let cellColors = Colors()
+
     let DidDismissPostVC: Notification.Name = Notification.Name("DidDismissPostVC")
-    let mainVC = MainViewController()
+//    let mainVC = MainViewController()
     
     var indexPathSelected = Int() //ViewController tableview의 선택한 cell의 indexPath.row
     var sectorPassed = " "
@@ -32,9 +34,9 @@ class EditViewController: UIViewController {
     
     private let passwordTextField: UITextField = {
         let textField = UITextField()
-        let cellColors = Colors()
         textField.placeholder = "비밀번호"
-        textField.backgroundColor = cellColors.mainGray
+        let cellColors = Colors()
+        textField.backgroundColor = cellColors.mainPink
         textField.layer.borderWidth = 1
         textField.layer.borderColor = UIColor.black.cgColor
         textField.layer.cornerRadius = 8
@@ -60,11 +62,13 @@ class EditViewController: UIViewController {
     
     let sectorButton: UIButton = {
         let button = UIButton()
+        let cellColors = Colors()
         button.setTitleColor(.darkGray, for: .normal)
         button.widthAnchor.constraint(equalToConstant: 120).isActive = true
         button.layer.borderColor = UIColor.systemGray.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 8
+        button.layer.backgroundColor = cellColors.mainPink.cgColor
        
         return button
     }()
@@ -81,11 +85,13 @@ class EditViewController: UIViewController {
     
     private let titleTextField: UITextField = {
         let textField = UITextField()
+        let cellColors = Colors()
         textField.placeholder = "입력해주세요"
         textField.backgroundColor = .white
         textField.layer.borderColor = UIColor.darkGray.cgColor
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 8
+        textField.layer.backgroundColor = cellColors.mainPink.cgColor
         textField.textAlignment = .center
         textField.widthAnchor.constraint(equalToConstant: 140).isActive = true
         textField.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -105,9 +111,11 @@ class EditViewController: UIViewController {
     
     private let commentTextView: UITextView = {
         let textView = UITextView()
+        let cellColors = Colors()
         textView.layer.borderWidth = 1
         textView.layer.borderColor = UIColor.darkGray.cgColor
         textView.layer.cornerRadius = 8
+        textView.layer.backgroundColor = cellColors.mainPink.cgColor
         textView.font = UIFont.systemFont(ofSize: 17)
         textView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         textView.heightAnchor.constraint(equalToConstant: 130).isActive = true
@@ -155,12 +163,13 @@ class EditViewController: UIViewController {
     
     private let editBtn: UIButton = {
         let button = UIButton()
+        let cellColor = Colors()
         button.setTitle("수정하기", for: .normal)
         button.setTitleColor(.darkGray, for: .normal)
         button.layer.borderColor = UIColor.darkGray.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 8
-        
+        button.backgroundColor = cellColor.mainGray
         button.widthAnchor.constraint(equalToConstant: 100).isActive = true
         button.heightAnchor.constraint(equalToConstant: 30).isActive = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -205,7 +214,7 @@ class EditViewController: UIViewController {
         passwordStackView.addArrangedSubview(passwordLabel)
         passwordStackView.addArrangedSubview(passwordTextField)
         
-        passwordStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        passwordStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
         passwordStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
    
         //sectorStackView
@@ -236,12 +245,12 @@ class EditViewController: UIViewController {
     
     @objc func editBtnPressed() {
         //앞 화면으로 돌아가기
-        NotificationCenter.default.post(name: DidDismissPostVC, object: nil, userInfo: nil)
         self.performSegue(withIdentifier: "unwindToViewController", sender: self)
         
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if segue.identifier == "unwindToViewController"{
             let mainVC = segue.destination as! MainViewController
             
@@ -250,13 +259,11 @@ class EditViewController: UIViewController {
             let titleLabel = titleTextField.text ?? "에러"
             let commentText = commentTextView.text ?? "에러"
             
-            putRequest(boardNum: mainVC.JSONData[indexPathSelected].boardNum, sector: sectorLabel , title: titleLabel, comment: commentText) {
+            patchRequest(boardNum: mainVC.JSONData[indexPathSelected].boardNum, sector: sectorLabel , title: titleLabel, comment: commentText) {
                 mainVC.tableView.reloadData()
             }
-           
-            print(mainVC.JSONData[indexPathSelected].boardNum)
+            NotificationCenter.default.post(name: DidDismissPostVC, object: nil, userInfo: nil)
 
-            
             //내부 저장된 데이터 사용 시
 //            mainVC.sectorLabelExample[indexPathSelected] = sectorButton.titleLabel?.text ?? "에러"
 //            mainVC.firstLabel[indexPathSelected] = titleTextField.text ?? "에러"

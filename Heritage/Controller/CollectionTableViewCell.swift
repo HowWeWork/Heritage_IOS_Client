@@ -7,15 +7,17 @@
 
 import UIKit
 
-struct CollectionTableViewCellViewModel{
+struct CollectionTableViewCellViewModel: Codable {
     let viewModels: [TopRankCollectionViewCellViewModel]
 }
 
 class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
+
     static let identifier = "CollectionTableViewCell"
     
-    private var viewModels: [TopRankCollectionViewCellViewModel] = []
+    var cardData = [TopRankCollectionViewCellViewModel]()
+
+//    private var viewModels: [TopRankCollectionViewCellViewModel] = []
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -42,11 +44,17 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
         contentView.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        getBestThreeRequest {
+            self.collectionView.reloadData()
+        }
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError()
     }
+    
     //MARK: - Layout
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -65,7 +73,7 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     
     //MARK: - CollectionView
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModels.count
+        return cardData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -75,13 +83,16 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
         ) as? TopRankCollectionViewCell else {
             fatalError()
         }
-        cell.configure(with: viewModels[indexPath.row])
+        cell.commonInit(sector: cardData[indexPath.row].sector, title: cardData[indexPath.row].title, comment: cardData[indexPath.row].comment)
+        
+        print(cardData)
+        cell.configure(with: cardData[indexPath.row])
         
         return cell
     }
     
     func configure(with viewModel: CollectionTableViewCellViewModel){
-        self.viewModels = viewModel.viewModels
+        self.cardData = viewModel.viewModels
         collectionView.reloadData()
     }
     
@@ -90,7 +101,44 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
         return CGSize(width: width, height: width/1.45)
     }
     
+    //Best 3 GET Request
+    func getBestThreeRequest(completed: @escaping () -> ()) {
+        
+        //Create URL
+        let url = URL(string: "http://heritage-env-1.eba-dvm4baup.ap-northeast-2.elasticbeanstalk.com/board/best")
+        guard let requestUrl = url else { fatalError() }
 
+        //Create URL Request
+        var request = URLRequest(url: requestUrl)
 
+        //Specify HTTP Method to use
+        request.httpMethod = "GET"
+
+        //Send HTTP Request
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            }
+            // Read HTTP Response Status code
+            if let response = response as? HTTPURLResponse {
+                print("1.Response HTTP Status code: \(response.statusCode)")
+            }
+            // Convert HTTP Response Data to Structure
+            guard let data = data else { return }
+            do {
+                let bestPosts = try JSONDecoder().decode([TopRankCollectionViewCellViewModel].self, from: data)
+                print(bestPosts)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                    completed()
+                })
+                self.cardData = bestPosts
+            } catch {
+                print("2.best Data error:",error.localizedDescription)
+            }
+            print("Available data:", self.cardData.count)
+        }
+        task.resume()
+    }
 }
 

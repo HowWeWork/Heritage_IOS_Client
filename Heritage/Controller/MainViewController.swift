@@ -11,30 +11,30 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var JSONData = [Data]()
     var testString: String = ""
+    var savedLikeNum: Int = 0
     
     let writeVC = WriteViewController()
+    let editVC = EditViewController()
+    
     let cellColors = Colors()
     
     var indexPathNum = Int() //indexPath.row 저장을 위한 Int 변수 생성
  
     //아래 viewModels를 다른 파일로 뺄 수는 없을까??
-    private let viewModels: [CollectionTableViewCellViewModel] = [
-        CollectionTableViewCellViewModel(
-            viewModels: [
-                TopRankCollectionViewCellViewModel(section:"책", title: "달러구트꿈백화점", comment: "따뜻하고 감동적이고 신비한 마법의 묘약을 삼킨 것 같은 아름다운 동화", backgroundColor: .white),
-                TopRankCollectionViewCellViewModel(section:"음악", title: "Stronger", comment: "What doesn't kill you make you stronger", backgroundColor: .white),
-                TopRankCollectionViewCellViewModel(section:"뮤지컬", title: "그리스", comment: "Tell me about it, stud", backgroundColor: .white)
-            ]
-        )
-    ]
+//    var bestThreeModels = [TopRankCollectionViewCellViewModel]()
+    var collectionThis = [CollectionTableViewCellViewModel]()
     
-    var sectorLabelExample: Array<String> = [" ","영화","영화","책","뮤지컬","뮤지컬","영화","영화","영화","영화","영화"]
-    var firstLabel = [" ","스파이더맨","천공의 성 라퓨타","용의자 X의 헌신","데스노트", "위키드", "Movie#6", "Movie#7", "Movie#8", "Movie#9", "Movie#10"]
-    var comment = [" ","With great power comes great responsibility", "여전히 싱싱한 플롯과 색채, 메시지","한번 빠져들면 나올 수 없는 소설","역시 인간은 재밌어","꿈을 이룬다는 건 예상보다는 단순하지 않았네요. 꿈을 이룬 기쁨 생각보다는 덜 해도 뭐 환벽한 해피엔딩","Let's Dance","Let's Dance","Let's Dance","Let's Dance","Let's Dance"]
-    var likeNumber = [1,2,3,4,5,6,7,8,9,10]
+//    private let viewModels: [CollectionTableViewCellViewModel] = [
+//        CollectionTableViewCellViewModel(
+//            viewModels: [
+//                TopRankCollectionViewCellViewModel(section:"책", title: "달러구트꿈백화점", comment: "따뜻하고 감동적이고 신비한 마법의 묘약을 삼킨 것 같은 아름다운 동화"),
+//                TopRankCollectionViewCellViewModel(section:"음악", title: "Stronger", comment: "What doesn't kill you make you stronger"),
+//                TopRankCollectionViewCellViewModel(section:"뮤지컬", title: "그리스", comment: "Tell me about it, stud")
+//            ]
+//        )
+//    ]
     
-    
-    //두 종류의 셀 형태를 같는 테이블 뷰 생성 (첫번째 행은 CollectiontableView, 두번째 이하는 CardCell Nib 사용)
+    //두 종류의 셀 형태를 같는 테이블 뷰 생성 (0번째 행은 CollectiontableView, 1번째 이하는 CardCell Nib 사용)
     let tableView:UITableView = {
         let table = UITableView()
 
@@ -49,12 +49,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         return table
     }()
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        tableView.reloadData()
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,15 +68,21 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
 //            self.view.addSubview(self.tableView)
 //        }
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
         
+        //Refreching Data
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self,
+                                          action: #selector(didPullToRefresh),
+                                          for: .valueChanged)
         //GET Request
         getRequest {
             self.tableView.reloadData()
         }
-        NotificationCenter.default.post(name: writeVC.DidDismissPostVC, object: nil, userInfo: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.didDismissPostNotification(_:)), name: writeVC.DidDismissPostVC, object: nil)
     }
     
@@ -106,11 +106,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         //Collection view 들어가는 곳
         if indexPath.row < 1 {
-            let viewModel = viewModels[indexPath.row]
+//            let viewModel = bestThreeModels[indexPath.row]
+//            let bestThreeModel = collectionThis[indexPath.row]
+//            let collectionThreeModel = collectionThis[indexPath.row].viewModels
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionTableViewCell.identifier, for: indexPath) as? CollectionTableViewCell else {
                 fatalError()
             }
-            cell.configure(with: viewModel)
+//            cell.configure(with: viewModel)
+//            cell.configure(with: bestThreeModel)
             
             return cell
             
@@ -119,7 +122,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             let cell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath) as! CardCell
             
             cell.commonInit(
-                
                 //rank는 boardNum,
                 rank: String(indexPath.row),
                 sector: JSONData[indexPath.row].sector,
@@ -134,7 +136,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 //                comment: comment[indexPath.row],
 //                likeNumber: "0"
             )
-            
             //String(likeNumber.reversed()[indexPath.item]+cell.likeAdded)
             
             cell.textLabel?.numberOfLines = 0
@@ -166,12 +167,14 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         print("IndexPath.row:", indexPath.row)
         print("BoardNum:",JSONData[indexPath.row].boardNum)
     }
+    
+    
 
     //Swipe 기능 추가 (수정&삭제)
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         //삭제
-        let deleteAction = UIContextualAction(style: .normal, title: "삭제", handler: {action, view, completionHandler in
+        let deleteAction = UIContextualAction(style: .normal , title: "삭제", handler: {action, view, completionHandler in
             
             //API 사용으로 변경 후
             deleteRequest(boardNum: self.JSONData[indexPath.row].boardNum) { (err) in
@@ -184,6 +187,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             self.JSONData.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            
             //위의 셀 삭제되면 랭킹 라벨에 번호 새로 매겨지도록 테이블뷰를 새로 업로드
             self.tableView.reloadData()
             
@@ -198,14 +203,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let editAction = UIContextualAction(style: .normal, title: "수정", handler: {action, view, completionHandler in
             
             self.indexPathNum = indexPath.row //indexPath.row 값 저장
+            self.checkPassword(indexPath: self.indexPathNum)
             
-            DispatchQueue.main.async() {
-                self.performSegue(withIdentifier: "goToEdit", sender: self)
-            }
         })
         
         deleteAction.backgroundColor = .red
-        editAction.backgroundColor = .orange
+        editAction.backgroundColor = .darkGray
         
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
     }
@@ -252,8 +255,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     //MARK: - Get request
     
     func getRequest(completed: @escaping () -> ()) {
+        
         //Create URL
-        let url = URL(string: "http://192.168.4.210:5000/board")
+        let url = URL(string: "http://heritage-env-1.eba-dvm4baup.ap-northeast-2.elasticbeanstalk.com/board")
         guard let requestUrl = url else { fatalError() }
 
         //Create URL Request
@@ -272,31 +276,97 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             if let response = response as? HTTPURLResponse {
                 print("1.Response HTTP Status code: \(response.statusCode)")
             }
-
             // Convert HTTP Response Data to Structure
             guard let data = data else { return }
             do {
-                let posts = try JSONDecoder().decode([Data].self, from: data)
-                DispatchQueue.main.async {
+                var posts = try JSONDecoder().decode([Data].self, from: data)
+                posts.insert(Data(boardNum: 0, userName: "Dummy", pw: "Dummy", sector: "Dummy", title: "Dummy", comment: "Dummy", likeCount: 0), at: 0)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
                     completed()
-                }
+                })
                 self.JSONData = posts
-
             } catch {
-                print(error.localizedDescription)
+                print("2.Data error:",error.localizedDescription)
             }
             print("Available data:",self.JSONData.count)
         }
         task.resume()
     }
+ 
+
+    
     
     @objc func didDismissPostNotification(_ noti: Notification) {
         getRequest {
             self.tableView.reloadData()
+            print("Reloaded")
         }
-//        OperationQueue.main.addOperation {
-//            self.tableView.reloadData()
-//        }
+    }
+    
+    @objc func didPullToRefresh() {
+        getRequest {
+            self.tableView.refreshControl?.endRefreshing()
+            self.tableView.reloadData()
+        }
+    }
+    
+    func checkPassword(indexPath: Int) {
+        var textField = UITextField()
+        let alert = UIAlertController(title: "비밀번호를 입력하세요", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "확인", style: .default) { action in
+            //Confirm 버튼을 눌렀을 때 발생할 일
+            if let password = textField.text {
+                if password == self.JSONData[indexPath].pw {
+                    print("Correct Password")
+                    DispatchQueue.main.async() {
+                        self.performSegue(withIdentifier: "goToEdit", sender: self)
+                    }
+                } else {
+                    self.incorrectPasswordAlert(indexPath: indexPath)
+                }
+            } else {print("No text input") }
+        }
+        
+        alert.addTextField { alertTextField in
+            alertTextField.placeholder = "비밀번호"
+            alertTextField.isSecureTextEntry = true
+            textField = alertTextField
+        }
+        alert.addAction(action)
+        present(alert, animated: true) {
+            alert.view.superview?.isUserInteractionEnabled = true
+            alert.view.superview?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.dismissOnTapOutside)))
+        }
+    }
+    
+    func incorrectPasswordAlert(indexPath: Int) {
+        let alert = UIAlertController(title: "비밀번호를 확인해주세요", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "확인", style: .default) { action in
+            //Confirm 버튼을 눌렀을 때 발생할 일
+            self.checkPassword(indexPath: indexPath)
+        }
+        alert.addAction(action)
+        present(alert, animated: true) {
+            alert.view.superview?.isUserInteractionEnabled = true
+            alert.view.superview?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.dismissOnTapOutside)))
+        }
+    }
+    
+    @objc func dismissOnTapOutside(){
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func likeOrNot(boardNum: Int, indexPath: Int) {
+        let cardCell = CardCell()
+        if cardCell.likeOrNot == true {
+            likePatchRequest(boardNum: boardNum, likeCount: JSONData[indexPath].likeCount + 1) {
+                self.tableView.reloadData()
+            }
+        } else {
+            likePatchRequest(boardNum: boardNum, likeCount: JSONData[indexPath].likeCount - 1) {
+                self.tableView.reloadData()
+            }
+        }
     }
   
 

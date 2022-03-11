@@ -7,12 +7,16 @@
 
 import UIKit
 
-struct TopRankCollectionViewCellViewModel {
+struct TopRankCollectionViewCellViewModel: Codable {
     
-    let section: String
-    let title: String
-    let comment: String
-    let backgroundColor: UIColor
+    let boardNum: Int
+    let userName: String
+    let pw: String
+    var sector: String
+    var title: String
+    var comment: String
+    var likeCount: Int
+    
 }
 
 class TopRankCollectionViewCell: UICollectionViewCell {
@@ -61,10 +65,6 @@ class TopRankCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(commentLabel)
         
-//        contentView.layer.cornerRadius = 20
-//        contentView.layer.borderWidth = 3
-//        contentView.layer.borderColor = UIColor.black.cgColor
-        
         setupLayout()
         setupBorder()
     }
@@ -75,14 +75,15 @@ class TopRankCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-
     }
     
     func configure(with viewModel: TopRankCollectionViewCellViewModel){
-        contentView.backgroundColor = viewModel.backgroundColor
-        sectionLabel.text = viewModel.section
+        
+//        contentView.backgroundColor = viewModel.backgroundColor
+        sectionLabel.text = viewModel.sector
         titleLabel.text = viewModel.title
         commentLabel.text = viewModel.comment
+        print(viewModel)
         
     }
     
@@ -105,7 +106,13 @@ class TopRankCollectionViewCell: UICollectionViewCell {
         contentView.layer.cornerRadius = 20
         contentView.layer.borderWidth = 4
         contentView.layer.borderColor = colorPalette.mainPink.cgColor
+    }
+    
+    func commonInit(sector: String, title: String, comment: String) {
         
-
+        sectionLabel.text = sector
+        titleLabel.text = title
+        commentLabel.text = comment
+        
     }
 }

@@ -7,20 +7,29 @@
 
 import UIKit
 
-struct TopRankCollectionViewCellViewModel {
-    let section: String
-    let title: String
-    let comment: String
-    let backgroundColor: UIColor
+struct TopRankCollectionViewCellViewModel: Codable {
+    
+    let boardNum: Int
+    let userName: String
+    let pw: String
+    var sector: String
+    var title: String
+    var comment: String
+    var likeCount: Int
+    
 }
+
 class TopRankCollectionViewCell: UICollectionViewCell {
     static let identifier = "TopRankCollectionViewCell"
+    
+    let colorPalette = Colors()
     
     private let sectionLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
+        label.font = UIFont(name: "NotoSerifKR-Regular", size: 15.0)
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: 15, weight: .medium)
+//        label.font = .systemFont(ofSize: 15, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -28,30 +37,33 @@ class TopRankCollectionViewCell: UICollectionViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
+        label.font = UIFont(name: "NotoSerifKR-Bold", size: 20.0)
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+//        label.font = .systemFont(ofSize: 20, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let commentLabel: UILabel = {
+    let commentLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
+        label.font = UIFont(name: "NotoSerifKR-Regular", size: 15.0)
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 15, weight: .light)
+        //        label.font = .systemFont(ofSize: 15, weight: .light)
+        label.widthAnchor.constraint(equalToConstant: 220).isActive = true
+        label.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
+
+    //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(sectionLabel)
         contentView.addSubview(titleLabel)
         contentView.addSubview(commentLabel)
-        
-//        contentView.layer.cornerRadius = 20
-//        contentView.layer.borderWidth = 3
-//        contentView.layer.borderColor = UIColor.black.cgColor
         
         setupLayout()
         setupBorder()
@@ -63,14 +75,16 @@ class TopRankCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-
     }
     
     func configure(with viewModel: TopRankCollectionViewCellViewModel){
-        contentView.backgroundColor = viewModel.backgroundColor
-        sectionLabel.text = viewModel.section
+        
+//        contentView.backgroundColor = viewModel.backgroundColor
+        sectionLabel.text = viewModel.sector
         titleLabel.text = viewModel.title
         commentLabel.text = viewModel.comment
+        print(viewModel)
+        
     }
     
     private func setupLayout(){
@@ -82,15 +96,23 @@ class TopRankCollectionViewCell: UICollectionViewCell {
         titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 35).isActive = true
 
         commentLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        commentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -60).isActive = true
+        commentLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20).isActive = true
+//        commentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -80).isActive = true
 
     }
     
     private func setupBorder(){
         
         contentView.layer.cornerRadius = 20
-        contentView.layer.borderWidth = 3
-        contentView.layer.borderColor = UIColor.black.cgColor
-
+        contentView.layer.borderWidth = 4
+        contentView.layer.borderColor = colorPalette.mainPink.cgColor
+    }
+    
+    func commonInit(sector: String, title: String, comment: String) {
+        
+        sectionLabel.text = sector
+        titleLabel.text = title
+        commentLabel.text = comment
+        
     }
 }
